@@ -1,4 +1,4 @@
-package prog7314.poe.edubridge.domain.model
+package prog7314.poe.edubridge.apiserver.models
 
 // Internal user record for mock authentication.
 
