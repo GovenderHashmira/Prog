@@ -1,0 +1,40 @@
+<resources>
+    <!-- App -->
+    <string name="app_name">EduBridge</string>
+    <string name="splash_message">Ilayisha i-EduBridge...</string>
+
+    <!-- Screens -->
+    <string name="login_title">Ngena</string>
+    <string name="biometric_title">Ukungena ngeBiometric</string>
+    <string name="dashboard_title">Ibhodi</string>
+    <string name="students_title">Khetha Umfundi</string>
+    <string name="results_title">Imiphumela</string>
+    <string name="attendance_title">Ukuba khona</string>
+    <string name="timetable_title">Isheduli</string>
+    <string name="messages_title">Imilayezo</string>
+    <string name="message_detail_title">Imininingwane Yemilayezo</string>
+    <string name="notices_title">Izaziso</string>
+    <string name="settings_title">Izilungiselelo</string>
+    <string name="language_title">Ulimi</string>
+    <string name="sync_status_title">Isimo Sokuhlanganisa</string>
+    <string name="profile_title">Iphrofayela</string>
+
+    <!-- Common actions -->
+    <string name="action_save">Gcina</string>
+    <string name="action_cancel">Khansela</string>
+    <string name="action_logout">Phuma</string>
+    <string name="action_retry">Zama Futhi</string>
+    <string name="action_delete">Susa</string>
+    <string name="action_edit">Hlela</string>
+    <string name="action_continue">Qhubeka</string>
+    <string name="action_back">Emuva</string>
+    <string name="action_next">Okulandelayo</string>
+    <string name="action_submit">Thumela</string>
+
+    <!-- States / Errors -->
+    <string name="state_loading">Ilayisha...</string>
+    <string name="state_error">Kwenzeke iphutha</string>
+    <string name="state_no_connection">Ayikho inethiwekhi</string>
+    <string name="state_empty">Ayikho idatha etholakalayo</string>
+    <string name="state_success">Umsebenzi uphumelele</string>
+</resources>

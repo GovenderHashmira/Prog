@@ -1,3 +1,40 @@
 <resources>
+    <!-- App -->
     <string name="app_name">EduBridge</string>
+    <string name="splash_message">Loading EduBridge...</string>
+
+    <!-- Screens -->
+    <string name="login_title">Login</string>
+    <string name="biometric_title">Biometric Login</string>
+    <string name="dashboard_title">Dashboard</string>
+    <string name="students_title">Select Student</string>
+    <string name="results_title">Results</string>
+    <string name="attendance_title">Attendance</string>
+    <string name="timetable_title">Timetable</string>
+    <string name="messages_title">Messages</string>
+    <string name="message_detail_title">Message Detail</string>
+    <string name="notices_title">Notices</string>
+    <string name="settings_title">Settings</string>
+    <string name="language_title">Language</string>
+    <string name="sync_status_title">Sync Status</string>
+    <string name="profile_title">Profile</string>
+
+    <!-- Common actions -->
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_back">Back</string>
+    <string name="action_next">Next</string>
+    <string name="action_submit">Submit</string>
+
+    <!-- States / Errors -->
+    <string name="state_loading">Loading...</string>
+    <string name="state_error">An error occurred</string>
+    <string name="state_no_connection">No internet connection</string>
+    <string name="state_empty">No data available</string>
+    <string name="state_success">Operation successful</string>
 </resources>

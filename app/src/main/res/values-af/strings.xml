@@ -1,0 +1,40 @@
+<resources>
+    <!-- App -->
+    <string name="app_name">EduBridge</string>
+    <string name="splash_message">Laai EduBridge...</string>
+
+    <!-- Screens -->
+    <string name="login_title">Meld Aan</string>
+    <string name="biometric_title">Biometriese Toegang</string>
+    <string name="dashboard_title">Paneelbord</string>
+    <string name="students_title">Kies Student</string>
+    <string name="results_title">Uitslae</string>
+    <string name="attendance_title">Bywoning</string>
+    <string name="timetable_title">Rooster</string>
+    <string name="messages_title">Boodskappe</string>
+    <string name="message_detail_title">Boodskap Detail</string>
+    <string name="notices_title">Kennisgewings</string>
+    <string name="settings_title">Instellings</string>
+    <string name="language_title">Taal</string>
+    <string name="sync_status_title">Sinkroniseer Status</string>
+    <string name="profile_title">Profiel</string>
+
+    <!-- Common actions -->
+    <string name="action_save">Stoor</string>
+    <string name="action_cancel">Kanselleer</string>
+    <string name="action_logout">Teken Uit</string>
+    <string name="action_retry">Probeer Weer</string>
+    <string name="action_delete">Vee Uit</string>
+    <string name="action_edit">Wysig</string>
+    <string name="action_continue">Gaan Voort</string>
+    <string name="action_back">Terug</string>
+    <string name="action_next">Volgende</string>
+    <string name="action_submit">Indien</string>
+
+    <!-- States / Errors -->
+    <string name="state_loading">Laai...</string>
+    <string name="state_error">’n Fout het plaasgevind</string>
+    <string name="state_no_connection">Geen internetverbinding</string>
+    <string name="state_empty">Geen data beskikbaar</string>
+    <string name="state_success">Operasie suksesvol</string>
+</resources>
