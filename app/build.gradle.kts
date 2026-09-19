@@ -1,12 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "prog7314.poe.edubridge"
-    compileSdk {
-        version = release(37)
-    }
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "prog7314.poe.edubridge"
@@ -58,6 +57,12 @@ dependencies {
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.truth)
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+    testImplementation(libs.androidx.room.testing)
 
     // Enables java.time.* (Instant, LocalDate, etc.) on API < 26
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
