@@ -5,42 +5,51 @@ plugins {
 
 android {
     namespace = "prog7314.poe.edubridge"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "prog7314.poe.edubridge"
         minSdk = 24
-        targetSdk = 37
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables { useSupportLibrary = true }
     }
 
     buildTypes {
         release {
-            optimization {
-                enable = false
-            }
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
+
     compileOptions {
-        // Required for desugaring
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 
+kotlin {
+    jvmToolchain(21)
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("room.incremental", "true")
+    arg("room.generateKotlin", "true")
+}
+
 dependencies {
-    implementation(libs.androidx.activity.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.constraintlayout)
+    // ── AndroidX core ────────────────────────────
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.junit)
+
 
     // Member 2 — Embedded REST API (Ktor)
     implementation(libs.ktor.server.core)
@@ -66,4 +75,5 @@ dependencies {
 
     // Enables java.time.* (Instant, LocalDate, etc.) on API < 26
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+
 }

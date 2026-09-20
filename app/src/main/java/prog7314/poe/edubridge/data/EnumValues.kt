@@ -52,3 +52,12 @@ enum class NoticePriority {
             entries.firstOrNull { it.name.equals(value, ignoreCase = true) } ?: MEDIUM
     }
 }
+    enum class OperationType {
+        CREATE, UPDATE, DELETE;
+
+        companion object {
+            fun fromString(value: String?): OperationType =
+                entries.firstOrNull { it.name.equals(value, ignoreCase = true) }
+                    ?: OperationType.CREATE
+        }
+    }

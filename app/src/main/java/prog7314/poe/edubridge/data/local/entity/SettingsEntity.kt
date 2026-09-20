@@ -6,10 +6,10 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "settings")
 data class SettingsEntity(
     @PrimaryKey val userId: String,
-    val language: String,
-    val notificationEnabled: Boolean,
-    val biometricEnabled: Boolean,
-    val darkModeEnabled: Boolean,
-    val weatherCity: String,
-    val updatedAt: Long
+    val language: String = "en",
+    val notificationEnabled: Boolean = true,
+    val biometricEnabled: Boolean = false,
+    val darkModeEnabled: Boolean = false,
+    val weatherCity: String = "Johannesburg",
+    val updatedAt: Long = System.currentTimeMillis()
 )
