@@ -44,4 +44,18 @@
     <string name="nav_timetable">Rooster</string>
     <string name="nav_messages">Boodskappe</string>
     <string name="nav_settings">Instellings</string>
+
+    <!-- Authentication -->
+    <string name="splash_tagline">Mobiele Skool- en Ouerportaal</string>
+    <string name="login_welcome">Welkom Terug</string>
+    <string name="login_subtitle">Kry veilige toegang tot jou student se akademiese reis en skoolopdaterings.</string>
+    <string name="login_email_label">Institusionele e-pos</string>
+    <string name="login_email_error">Voer ’n geldige institusionele e-posadres in</string>
+    <string name="login_continue_sso">Gaan voort met SSO</string>
+    <string name="login_create_account">Skep Ouerrekening</string>
+    <string name="login_encrypted_note">Beveilig met 256-bis-enkripsie</string>
+    <string name="biometric_welcome">Welkom terug, %1$s</string>
+    <string name="biometric_prompt">Raak die sensor om jou identiteit te verifieer</string>
+    <string name="biometric_verifying">Verifieer identiteit…</string>
+    <string name="biometric_use_sso">Gebruik eerder SSO-aanmelding</string>
 </resources>

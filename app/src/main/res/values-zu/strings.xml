@@ -44,4 +44,18 @@
     <string name="nav_timetable">Isheduli</string>
     <string name="nav_messages">Imilayezo</string>
     <string name="nav_settings">Izilungiselelo</string>
+
+    <!-- Authentication -->
+    <string name="splash_tagline">Iphothali Yesikole Neyomzali Eseselula</string>
+    <string name="login_welcome">Wamukelekile Futhi</string>
+    <string name="login_subtitle">Finyelela ngokuphepha uhambo lwezemfundo lomfundi wakho nezibuyekezo zesikole.</string>
+    <string name="login_email_label">I-imeyili yesikhungo</string>
+    <string name="login_email_error">Faka ikheli le-imeyili yesikhungo elivumelekile</string>
+    <string name="login_continue_sso">Qhubeka nge-SSO</string>
+    <string name="login_create_account">Dala I-akhawunti Yomzali</string>
+    <string name="login_encrypted_note">Kuvikelwe nge-256-bit encryption</string>
+    <string name="biometric_welcome">Wamukelekile futhi, %1$s</string>
+    <string name="biometric_prompt">Thinta inzwa ukuze uqinisekise ubunikazi bakho</string>
+    <string name="biometric_verifying">Iqinisekisa ubunikazi…</string>
+    <string name="biometric_use_sso">Sebenzisa ukungena kwe-SSO esikhundleni</string>
 </resources>
