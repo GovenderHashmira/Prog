@@ -37,4 +37,135 @@
     <string name="state_no_connection">Ayikho inethiwekhi</string>
     <string name="state_empty">Ayikho idatha etholakalayo</string>
     <string name="state_success">Umsebenzi uphumelele</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">Ikhaya</string>
+    <string name="nav_academics">Ezemfundo</string>
+    <string name="nav_timetable">Isheduli</string>
+    <string name="nav_messages">Imilayezo</string>
+    <string name="nav_settings">Izilungiselelo</string>
+
+    <!-- Authentication -->
+    <string name="splash_tagline">Iphothali Yesikole Neyomzali Eseselula</string>
+    <string name="login_welcome">Wamukelekile Futhi</string>
+    <string name="login_subtitle">Finyelela ngokuphepha uhambo lwezemfundo lomfundi wakho nezibuyekezo zesikole.</string>
+    <string name="login_email_label">I-imeyili yesikhungo</string>
+    <string name="login_email_error">Faka ikheli le-imeyili yesikhungo elivumelekile</string>
+    <string name="login_continue_sso">Qhubeka nge-SSO</string>
+    <string name="login_create_account">Dala I-akhawunti Yomzali</string>
+    <string name="login_encrypted_note">Kuvikelwe nge-256-bit encryption</string>
+    <string name="biometric_welcome">Wamukelekile futhi, %1$s</string>
+    <string name="biometric_prompt">Thinta inzwa ukuze uqinisekise ubunikazi bakho</string>
+    <string name="biometric_verifying">Iqinisekisa ubunikazi…</string>
+    <string name="biometric_use_sso">Sebenzisa ukungena kwe-SSO esikhundleni</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_greeting">Sawubona, %1$s</string>
+    <string name="dashboard_subtitle">Konke kubukeka kuhamba kahle nenqubekela phambili yezemfundo ka-%1$s namuhla.</string>
+    <string name="dashboard_academic_overview">Uhlolojikelele Lwezemfundo</string>
+    <string name="dashboard_attendance_rate">Izinga Lokuba Khona</string>
+    <string name="dashboard_today_classes">Amakilasi Anamuhla</string>
+    <string name="dashboard_view_schedule">Buka Ishejuli Ephelele</string>
+    <string name="dashboard_no_classes">Awekho amakilasi ahleliwe namuhla</string>
+    <string name="dashboard_recent_notices">Izaziso Zakamuva</string>
+    <string name="dashboard_see_all">Buka Konke</string>
+
+    <!-- Student selection -->
+    <string name="students_heading">Khetha Umfundi</string>
+    <string name="students_subtitle">Shintsha phakathi kwamaphrofayela ezingane zakho ukubona inqubekela phambili yezemfundo namashejuli abo.</string>
+    <string name="students_registered">Abafundi Ababhalisiwe</string>
+    <string name="students_selected">Okukhethiwe</string>
+
+    <!-- Results -->
+    <string name="results_current_standing">Isimo Samanje</string>
+    <string name="results_overall_grade">Ibanga Eliphelele</string>
+    <string name="results_subject_breakdown">Ukwehlukaniswa Kwezifundo</string>
+    <string name="results_filter_term1">Ithemu 1</string>
+    <string name="results_filter_term2">Ithemu 2</string>
+    <string name="results_filter_term3">Ithemu 3</string>
+    <string name="results_filter_final">Okokugcina</string>
+
+    <!-- Attendance -->
+    <string name="attendance_overall">Ukuba Khona Okuphelele</string>
+    <string name="attendance_academic_year">Unyaka Wezemfundo Wamanje 2026</string>
+    <string name="attendance_present">Ukhona</string>
+    <string name="attendance_absent">Akekho</string>
+    <string name="attendance_late">Ephuzile</string>
+    <string name="attendance_recent_records">Amarekhodi Akamuva</string>
+    <string name="attendance_no_notes">Awekho amazwana athile aqoshiwe kulesi sikhathi.</string>
+
+    <!-- Timetable -->
+    <string name="timetable_weekly">Ishejuli Yamasonto</string>
+    <string name="timetable_no_classes">Awekho amakilasi ahleliwe kulolu suku</string>
+    <string name="timetable_classes_count">Unamakilasi angu-%1$d ahleliwe</string>
+
+    <!-- Maps -->
+    <string name="maps_title">Indawo Yesikole</string>
+    <string name="maps_open">Vula ku-Google Maps</string>
+
+    <string name="settings_app_preferences">Okuncanyelwayo Kwe-app</string>
+    <string name="settings_language">Ulimi</string>
+    <string name="settings_offline_sync">Okungaxhunyiwe &amp; Ukuvumelanisa</string>
+    <string name="settings_offline_sync_subtitle">Phatha idatha egciniwe nokuvumelanisa</string>
+    <string name="settings_appearance">Imodi Emnyama</string>
+    <string name="settings_appearance_subtitle">Sebenzisa itimu emnyama</string>
+    <string name="settings_notifications_section">Izaziso</string>
+    <string name="settings_push_notifications">Izaziso Ezisondelayo</string>
+    <string name="settings_push_notifications_subtitle">Izexwayiso zemiphumela, izaziso nemilayezo</string>
+    <string name="settings_security_section">Ezokuphepha</string>
+    <string name="settings_biometric">Ukungena Nge-biometric</string>
+    <string name="settings_biometric_subtitle">Vula ngezigxivizo zeminwe noma ubuso</string>
+    <string name="language_heading">Khetha Ulimi Lwakho</string>
+    <string name="language_subtitle">Khetha ulimi olukhethayo lwezaziso, imibiko nokuxhumana.</string>
+    <string name="language_available">Izilimi Ezikhona</string>
+    <string name="language_current">Yamanje</string>
+    <string name="language_note">Ukushintsha ulimi lwakho kubuyekeza isikhombisi nemilayezo yesistimu. Imilayezo yothisha ihlala ngolimi eyathunyelwa ngalo.</string>
+    <string name="language_confirm">Qinisekisa Ukukhetha</string>
+    <string name="sync_up_to_date">Kusesikhathini</string>
+    <string name="sync_last_synced">Ukugcina Ukuvumelanisa</string>
+    <string name="sync_local_storage">Isitoreji Sasendaweni</string>
+    <string name="sync_now">Vumelanisa Manje</string>
+    <string name="sync_settings_section">Izilungiselelo Zokuvumelanisa</string>
+    <string name="sync_auto_background">Ukuvumelanisa Okuzenzakalelayo</string>
+    <string name="sync_auto_background_subtitle">Gcina idatha ibuyekezwa ngokuzenzakalela</string>
+    <string name="sync_wifi_only">Vumelanisa Nge-Wi-Fi Kuphela</string>
+    <string name="sync_wifi_only_subtitle">Onga ukusetshenziswa kwedatha yeselula</string>
+    <string name="sync_offline_note">Imodi engaxhunyiwe ikuvumela ukubuka idatha yezemfundo owayilanda ngaphambili ngaphandle koxhumano. Izinguquko ozenza ungaxhunyiwe zizovumelaniswa uma uphinde uxhume.</string>
+    <string name="sync_offline_availability">Ukutholakala Kungaxhunyiwe</string>
+    <string name="sync_item_timetable">Ishejuli</string>
+    <string name="sync_item_results">Imiphumela Yezivivinyo</string>
+    <string name="sync_item_notices">Ibhodi Lezaziso</string>
+    <string name="sync_item_attendance">Ukuza Esikoleni</string>
+    <string name="sync_in_progress">Iyavumelanisa…</string>
+    <string name="notice_priority_high">Okubaluleke Kakhulu</string>
+    <string name="notice_priority_medium">Okubaluleke Okumaphakathi</string>
+    <string name="notice_priority_low">Okubaluleke Kancane</string>
+    <string name="notice_broadcast">Wonke Amabanga</string>
+    <string name="notice_read_more">Funda Kabanzi</string>
+    <string name="notices_empty">Azikho izaziso okumele zikhonjiswe</string>
+    <string name="messages_subtitle">Ibhokisi lakho eligunyaziwe</string>
+    <string name="messages_filter_all">Konke</string>
+    <string name="messages_filter_unread">Okungafundiwe</string>
+    <string name="messages_empty">Ayikho imilayezo okwamanje</string>
+    <string name="message_unread_badge">Okusha</string>
+    <string name="message_from">Ivela ku</string>
+    <string name="message_reply">Phendula</string>
+    <string name="profile_role">Indima</string>
+    <string name="profile_email">I-imeyili</string>
+    <string name="profile_account_section">Ukuphathwa Kwe-akhawunti</string>
+    <string name="profile_personal_info">Imininingwane Yomuntu</string>
+    <string name="profile_personal_info_subtitle">Buyekeza igama nemininingwane yokuxhumana</string>
+    <string name="profile_notification_prefs">Okuncanyelwayo Kwezaziso</string>
+    <string name="profile_notification_prefs_subtitle">I-push, i-imeyili ne-SMS</string>
+    <string name="profile_privacy">Ubumfihlo &amp; Ezokuphepha</string>
+    <string name="profile_privacy_subtitle">Shintsha iphasiwedi ne-2FA</string>
+    <string name="profile_linked_students">Abafundi Abaxhunyiwe</string>
+    <string name="profile_member_since">Ilungu Kusukela</string>
+    <string name="profile_app_version">Inguqulo Ye-app</string>
+    <string name="role_parent">Umzali</string>
+    <string name="role_student">Umfundi</string>
+    <string name="role_teacher">Uthisha</string>
+    <string name="role_admin">Umlawuli</string>
+    <string name="sync_just_now">Khona manje</string>
+    <string name="sync_minutes_ago">Emizuzwini engu-%1$d edlule</string>
 </resources>

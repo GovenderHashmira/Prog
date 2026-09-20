@@ -37,4 +37,135 @@
     <string name="state_no_connection">No internet connection</string>
     <string name="state_empty">No data available</string>
     <string name="state_success">Operation successful</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_academics">Academics</string>
+    <string name="nav_timetable">Timetable</string>
+    <string name="nav_messages">Messages</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Authentication -->
+    <string name="splash_tagline">Mobile School &amp; Parent Portal</string>
+    <string name="login_welcome">Welcome Back</string>
+    <string name="login_subtitle">Securely access your student’s academic journey and school updates.</string>
+    <string name="login_email_label">Institutional email</string>
+    <string name="login_email_error">Enter a valid institutional email address</string>
+    <string name="login_continue_sso">Continue with SSO</string>
+    <string name="login_create_account">Create Parent Account</string>
+    <string name="login_encrypted_note">Secured with 256-bit encryption</string>
+    <string name="biometric_welcome">Welcome back, %1$s</string>
+    <string name="biometric_prompt">Tap the sensor to verify your identity</string>
+    <string name="biometric_verifying">Verifying identity…</string>
+    <string name="biometric_use_sso">Use SSO login instead</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_greeting">Hello, %1$s</string>
+    <string name="dashboard_subtitle">Everything looks good with %1$s’s academic progress today.</string>
+    <string name="dashboard_academic_overview">Academic Overview</string>
+    <string name="dashboard_attendance_rate">Attendance Rate</string>
+    <string name="dashboard_today_classes">Today’s Classes</string>
+    <string name="dashboard_view_schedule">View Full Schedule</string>
+    <string name="dashboard_no_classes">No classes scheduled today</string>
+    <string name="dashboard_recent_notices">Recent Notices</string>
+    <string name="dashboard_see_all">See All</string>
+
+    <!-- Student selection -->
+    <string name="students_heading">Select a Student</string>
+    <string name="students_subtitle">Switch between your children’s profiles to view their academic progress and schedules.</string>
+    <string name="students_registered">Registered Students</string>
+    <string name="students_selected">Selected</string>
+
+    <!-- Results -->
+    <string name="results_current_standing">Current Standing</string>
+    <string name="results_overall_grade">Overall Grade</string>
+    <string name="results_subject_breakdown">Subject Breakdown</string>
+    <string name="results_filter_term1">Term 1</string>
+    <string name="results_filter_term2">Term 2</string>
+    <string name="results_filter_term3">Term 3</string>
+    <string name="results_filter_final">Final</string>
+
+    <!-- Attendance -->
+    <string name="attendance_overall">Overall Attendance</string>
+    <string name="attendance_academic_year">Current Academic Year 2026</string>
+    <string name="attendance_present">Present</string>
+    <string name="attendance_absent">Absent</string>
+    <string name="attendance_late">Late</string>
+    <string name="attendance_recent_records">Recent Records</string>
+    <string name="attendance_no_notes">No specific comments recorded for this session.</string>
+
+    <!-- Timetable -->
+    <string name="timetable_weekly">Weekly Timetable</string>
+    <string name="timetable_no_classes">No classes scheduled for this day</string>
+    <string name="timetable_classes_count">You have %1$d classes scheduled</string>
+
+    <!-- Maps -->
+    <string name="maps_title">School Location</string>
+    <string name="maps_open">Open in Google Maps</string>
+
+    <string name="settings_app_preferences">App Preferences</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_offline_sync">Offline &amp; Sync</string>
+    <string name="settings_offline_sync_subtitle">Manage cached data and synchronisation</string>
+    <string name="settings_appearance">Dark Mode</string>
+    <string name="settings_appearance_subtitle">Use a darker interface theme</string>
+    <string name="settings_notifications_section">Notifications</string>
+    <string name="settings_push_notifications">Push Notifications</string>
+    <string name="settings_push_notifications_subtitle">Alerts for results, notices and messages</string>
+    <string name="settings_security_section">Security</string>
+    <string name="settings_biometric">Biometric Login</string>
+    <string name="settings_biometric_subtitle">Unlock with fingerprint or face</string>
+    <string name="language_heading">Choose Your Language</string>
+    <string name="language_subtitle">Select your preferred language for notifications, reports and communication.</string>
+    <string name="language_available">Available Languages</string>
+    <string name="language_current">Current</string>
+    <string name="language_note">Changing your language updates the interface and system messages. Personal messages from teachers stay in the language they were sent.</string>
+    <string name="language_confirm">Confirm Selection</string>
+    <string name="sync_up_to_date">Up to date</string>
+    <string name="sync_last_synced">Last Synced</string>
+    <string name="sync_local_storage">Local Storage</string>
+    <string name="sync_now">Sync Now</string>
+    <string name="sync_settings_section">Synchronisation Settings</string>
+    <string name="sync_auto_background">Auto Background Sync</string>
+    <string name="sync_auto_background_subtitle">Keep data updated automatically</string>
+    <string name="sync_wifi_only">Sync on Wi-Fi Only</string>
+    <string name="sync_wifi_only_subtitle">Save mobile data usage</string>
+    <string name="sync_offline_note">Offline mode lets you view previously downloaded academic data without a connection. Changes made offline sync when you reconnect.</string>
+    <string name="sync_offline_availability">Offline Availability</string>
+    <string name="sync_item_timetable">Timetable</string>
+    <string name="sync_item_results">Exam Results</string>
+    <string name="sync_item_notices">Notice Board</string>
+    <string name="sync_item_attendance">Attendance</string>
+    <string name="sync_in_progress">Syncing…</string>
+    <string name="notice_priority_high">High Priority</string>
+    <string name="notice_priority_medium">Medium Priority</string>
+    <string name="notice_priority_low">Low Priority</string>
+    <string name="notice_broadcast">All Grades</string>
+    <string name="notice_read_more">Read More</string>
+    <string name="notices_empty">No notices to show</string>
+    <string name="messages_subtitle">Your authorised inbox</string>
+    <string name="messages_filter_all">All</string>
+    <string name="messages_filter_unread">Unread</string>
+    <string name="messages_empty">No messages yet</string>
+    <string name="message_unread_badge">New</string>
+    <string name="message_from">From</string>
+    <string name="message_reply">Reply</string>
+    <string name="profile_role">Role</string>
+    <string name="profile_email">Email</string>
+    <string name="profile_account_section">Account Management</string>
+    <string name="profile_personal_info">Personal Information</string>
+    <string name="profile_personal_info_subtitle">Update name and contact info</string>
+    <string name="profile_notification_prefs">Notification Preferences</string>
+    <string name="profile_notification_prefs_subtitle">Push, email and SMS</string>
+    <string name="profile_privacy">Privacy &amp; Security</string>
+    <string name="profile_privacy_subtitle">Change password and 2FA</string>
+    <string name="profile_linked_students">Linked Students</string>
+    <string name="profile_member_since">Member Since</string>
+    <string name="profile_app_version">App Version</string>
+    <string name="role_parent">Parent</string>
+    <string name="role_student">Student</string>
+    <string name="role_teacher">Teacher</string>
+    <string name="role_admin">Administrator</string>
+    <string name="sync_just_now">Just now</string>
+    <string name="sync_minutes_ago">%1$d min ago</string>
 </resources>
