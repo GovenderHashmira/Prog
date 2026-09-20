@@ -58,4 +58,49 @@
     <string name="biometric_prompt">Thinta inzwa ukuze uqinisekise ubunikazi bakho</string>
     <string name="biometric_verifying">Iqinisekisa ubunikazi…</string>
     <string name="biometric_use_sso">Sebenzisa ukungena kwe-SSO esikhundleni</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_greeting">Sawubona, %1$s</string>
+    <string name="dashboard_subtitle">Konke kubukeka kuhamba kahle nenqubekela phambili yezemfundo ka-%1$s namuhla.</string>
+    <string name="dashboard_academic_overview">Uhlolojikelele Lwezemfundo</string>
+    <string name="dashboard_attendance_rate">Izinga Lokuba Khona</string>
+    <string name="dashboard_today_classes">Amakilasi Anamuhla</string>
+    <string name="dashboard_view_schedule">Buka Ishejuli Ephelele</string>
+    <string name="dashboard_no_classes">Awekho amakilasi ahleliwe namuhla</string>
+    <string name="dashboard_recent_notices">Izaziso Zakamuva</string>
+    <string name="dashboard_see_all">Buka Konke</string>
+
+    <!-- Student selection -->
+    <string name="students_heading">Khetha Umfundi</string>
+    <string name="students_subtitle">Shintsha phakathi kwamaphrofayela ezingane zakho ukubona inqubekela phambili yezemfundo namashejuli abo.</string>
+    <string name="students_registered">Abafundi Ababhalisiwe</string>
+    <string name="students_selected">Okukhethiwe</string>
+
+    <!-- Results -->
+    <string name="results_current_standing">Isimo Samanje</string>
+    <string name="results_overall_grade">Ibanga Eliphelele</string>
+    <string name="results_subject_breakdown">Ukwehlukaniswa Kwezifundo</string>
+    <string name="results_filter_term1">Ithemu 1</string>
+    <string name="results_filter_term2">Ithemu 2</string>
+    <string name="results_filter_term3">Ithemu 3</string>
+    <string name="results_filter_final">Okokugcina</string>
+
+    <!-- Attendance -->
+    <string name="attendance_overall">Ukuba Khona Okuphelele</string>
+    <string name="attendance_academic_year">Unyaka Wezemfundo Wamanje 2026</string>
+    <string name="attendance_present">Ukhona</string>
+    <string name="attendance_absent">Akekho</string>
+    <string name="attendance_late">Ephuzile</string>
+    <string name="attendance_recent_records">Amarekhodi Akamuva</string>
+    <string name="attendance_no_notes">Awekho amazwana athile aqoshiwe kulesi sikhathi.</string>
+
+    <!-- Timetable -->
+    <string name="timetable_weekly">Ishejuli Yamasonto</string>
+    <string name="timetable_no_classes">Awekho amakilasi ahleliwe kulolu suku</string>
+    <string name="timetable_classes_count">Unamakilasi angu-%1$d ahleliwe</string>
+
+    <!-- Maps -->
+    <string name="maps_title">Indawo Yesikole</string>
+    <string name="maps_open">Vula ku-Google Maps</string>
+
 </resources>

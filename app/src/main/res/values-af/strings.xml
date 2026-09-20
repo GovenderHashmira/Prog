@@ -58,4 +58,49 @@
     <string name="biometric_prompt">Raak die sensor om jou identiteit te verifieer</string>
     <string name="biometric_verifying">Verifieer identiteit…</string>
     <string name="biometric_use_sso">Gebruik eerder SSO-aanmelding</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_greeting">Hallo, %1$s</string>
+    <string name="dashboard_subtitle">Alles lyk goed met %1$s se akademiese vordering vandag.</string>
+    <string name="dashboard_academic_overview">Akademiese Oorsig</string>
+    <string name="dashboard_attendance_rate">Bywoningskoers</string>
+    <string name="dashboard_today_classes">Vandag se Klasse</string>
+    <string name="dashboard_view_schedule">Sien Volledige Rooster</string>
+    <string name="dashboard_no_classes">Geen klasse geskeduleer vandag nie</string>
+    <string name="dashboard_recent_notices">Onlangse Kennisgewings</string>
+    <string name="dashboard_see_all">Sien Alles</string>
+
+    <!-- Student selection -->
+    <string name="students_heading">Kies ’n Student</string>
+    <string name="students_subtitle">Skakel tussen jou kinders se profiele om hul akademiese vordering en roosters te sien.</string>
+    <string name="students_registered">Geregistreerde Studente</string>
+    <string name="students_selected">Gekies</string>
+
+    <!-- Results -->
+    <string name="results_current_standing">Huidige Stand</string>
+    <string name="results_overall_grade">Algehele Graad</string>
+    <string name="results_subject_breakdown">Vak-uiteensetting</string>
+    <string name="results_filter_term1">Kwartaal 1</string>
+    <string name="results_filter_term2">Kwartaal 2</string>
+    <string name="results_filter_term3">Kwartaal 3</string>
+    <string name="results_filter_final">Finaal</string>
+
+    <!-- Attendance -->
+    <string name="attendance_overall">Algehele Bywoning</string>
+    <string name="attendance_academic_year">Huidige Akademiese Jaar 2026</string>
+    <string name="attendance_present">Teenwoordig</string>
+    <string name="attendance_absent">Afwesig</string>
+    <string name="attendance_late">Laat</string>
+    <string name="attendance_recent_records">Onlangse Rekords</string>
+    <string name="attendance_no_notes">Geen spesifieke opmerkings vir hierdie sessie aangeteken nie.</string>
+
+    <!-- Timetable -->
+    <string name="timetable_weekly">Weeklikse Rooster</string>
+    <string name="timetable_no_classes">Geen klasse vir hierdie dag geskeduleer nie</string>
+    <string name="timetable_classes_count">Jy het %1$d klasse geskeduleer</string>
+
+    <!-- Maps -->
+    <string name="maps_title">Skool Ligging</string>
+    <string name="maps_open">Open in Google Maps</string>
+
 </resources>

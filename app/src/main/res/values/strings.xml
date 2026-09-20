@@ -46,7 +46,7 @@
     <string name="nav_settings">Settings</string>
 
     <!-- Authentication -->
-    <string name="splash_tagline">Mobile School & Parent Portal</string>
+    <string name="splash_tagline">Mobile School &amp; Parent Portal</string>
     <string name="login_welcome">Welcome Back</string>
     <string name="login_subtitle">Securely access your student’s academic journey and school updates.</string>
     <string name="login_email_label">Institutional email</string>
@@ -58,4 +58,49 @@
     <string name="biometric_prompt">Tap the sensor to verify your identity</string>
     <string name="biometric_verifying">Verifying identity…</string>
     <string name="biometric_use_sso">Use SSO login instead</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_greeting">Hello, %1$s</string>
+    <string name="dashboard_subtitle">Everything looks good with %1$s’s academic progress today.</string>
+    <string name="dashboard_academic_overview">Academic Overview</string>
+    <string name="dashboard_attendance_rate">Attendance Rate</string>
+    <string name="dashboard_today_classes">Today’s Classes</string>
+    <string name="dashboard_view_schedule">View Full Schedule</string>
+    <string name="dashboard_no_classes">No classes scheduled today</string>
+    <string name="dashboard_recent_notices">Recent Notices</string>
+    <string name="dashboard_see_all">See All</string>
+
+    <!-- Student selection -->
+    <string name="students_heading">Select a Student</string>
+    <string name="students_subtitle">Switch between your children’s profiles to view their academic progress and schedules.</string>
+    <string name="students_registered">Registered Students</string>
+    <string name="students_selected">Selected</string>
+
+    <!-- Results -->
+    <string name="results_current_standing">Current Standing</string>
+    <string name="results_overall_grade">Overall Grade</string>
+    <string name="results_subject_breakdown">Subject Breakdown</string>
+    <string name="results_filter_term1">Term 1</string>
+    <string name="results_filter_term2">Term 2</string>
+    <string name="results_filter_term3">Term 3</string>
+    <string name="results_filter_final">Final</string>
+
+    <!-- Attendance -->
+    <string name="attendance_overall">Overall Attendance</string>
+    <string name="attendance_academic_year">Current Academic Year 2026</string>
+    <string name="attendance_present">Present</string>
+    <string name="attendance_absent">Absent</string>
+    <string name="attendance_late">Late</string>
+    <string name="attendance_recent_records">Recent Records</string>
+    <string name="attendance_no_notes">No specific comments recorded for this session.</string>
+
+    <!-- Timetable -->
+    <string name="timetable_weekly">Weekly Timetable</string>
+    <string name="timetable_no_classes">No classes scheduled for this day</string>
+    <string name="timetable_classes_count">You have %1$d classes scheduled</string>
+
+    <!-- Maps -->
+    <string name="maps_title">School Location</string>
+    <string name="maps_open">Open in Google Maps</string>
+
 </resources>
