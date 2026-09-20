@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "prog7314.poe.edubridge"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "prog7314.poe.edubridge"
         minSdk = 24
-        targetSdk = 37
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -23,9 +23,7 @@ android {
 
     buildTypes {
         release {
-            optimization {
-                enable = false
-            }
+            isMinifyEnabled = false
         }
     }
     compileOptions {
