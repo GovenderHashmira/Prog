@@ -37,4 +37,11 @@
     <string name="state_no_connection">Ayikho inethiwekhi</string>
     <string name="state_empty">Ayikho idatha etholakalayo</string>
     <string name="state_success">Umsebenzi uphumelele</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">Ikhaya</string>
+    <string name="nav_academics">Ezemfundo</string>
+    <string name="nav_timetable">Isheduli</string>
+    <string name="nav_messages">Imilayezo</string>
+    <string name="nav_settings">Izilungiselelo</string>
 </resources>

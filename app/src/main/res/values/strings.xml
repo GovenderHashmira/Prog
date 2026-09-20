@@ -37,4 +37,11 @@
     <string name="state_no_connection">No internet connection</string>
     <string name="state_empty">No data available</string>
     <string name="state_success">Operation successful</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_academics">Academics</string>
+    <string name="nav_timetable">Timetable</string>
+    <string name="nav_messages">Messages</string>
+    <string name="nav_settings">Settings</string>
 </resources>

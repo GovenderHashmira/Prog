@@ -37,4 +37,11 @@
     <string name="state_no_connection">Geen internetverbinding</string>
     <string name="state_empty">Geen data beskikbaar</string>
     <string name="state_success">Operasie suksesvol</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">Tuis</string>
+    <string name="nav_academics">Akademies</string>
+    <string name="nav_timetable">Rooster</string>
+    <string name="nav_messages">Boodskappe</string>
+    <string name="nav_settings">Instellings</string>
 </resources>

@@ -5,34 +5,44 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Inbox
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import prog7314.poe.edubridge.R
 
 @Composable
-fun LoadingIndicator(
+fun EmptyState(
     modifier: Modifier = Modifier,
-    message: String = stringResource(R.string.state_loading)
+    message: String = stringResource(R.string.state_empty),
+    icon: ImageVector = Icons.Filled.Inbox
 ) {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        CircularProgressIndicator(
-            modifier = Modifier.size(44.dp),
-            color = MaterialTheme.colorScheme.primary
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier.size(56.dp),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
             text = message,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 16.dp)
         )
     }
