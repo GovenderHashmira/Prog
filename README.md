@@ -60,7 +60,7 @@ The EduBridge application includes this functionality:
 This application does not replace a school’s complete administration or learning management system.
 
 ## Architecture Diagram
-
+<img src ="Architecture Diagram PROG.png">
 
 ## Technology Stack
 |Layer |Technology |Purpose |
