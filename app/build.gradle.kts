@@ -18,8 +18,8 @@ android {
         versionName = "1.0"
 
         buildConfigField("String", "API_BASE_URL", "\"https://dev-api.edubridge.local/\"")
-        buildConfigField("String", "WEATHER_API_KEY", "\"YOUR_OPENWEATHER_KEY\"")
-        buildConfigField("String", "MAPS_API_KEY", "\"YOUR_MAPS_KEY\"")
+        buildConfigField("String", "WEATHER_API_KEY", "\"653545f5cc023f864ecbb580a1bf45f3\"")
+        buildConfigField("String", "MAPS_API_KEY", "\"AIzaSyAy94rn-a0Eu2jPPXGz92Kyk9NROEziPaw\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
@@ -105,7 +105,11 @@ dependencies {
     implementation(libs.ktor.server.default.headers)
     implementation(libs.gson)
 
+<<<<<<< Updated upstream
     // Tests
+=======
+    //Member 2 — API tests - KHUMO MACHOGA
+>>>>>>> Stashed changes
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.truth)
     testImplementation(libs.coroutines.test)
