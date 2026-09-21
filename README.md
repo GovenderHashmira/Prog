@@ -115,5 +115,21 @@ The workflow is triggered when changes to code are pushed to the repository and 
 
 
 ## AI Declaration
+### Meira John Daniels
+- Architecture Diagram - used AI to assist with structuring and refining the diagram as well as suggest appropriate terminology for the architecture diagram.
+- Concept clarification - used AI to clarify concepts required for the documentation.
+- GitHub Actions Automation - used AI to assist with understanding and creating the GitHub Actions workflow for project build and testing.
+
+### Khumo Machoga
+- Unit Tests - used AI to assist with understanding and developing unit tests.
+- Concept Clarification - used AI to explain Kotlin and Ktor concepts as well as package/import resolution and Android build configuration.
+- Errors - used AI to help understand compiler errors and suggest possible causes and solutions.
+- Code Review - used AI to review code to identify any potential bugs or problems within code and provide correction or improvement suggestions.
+- Boilerplate assistance - used AI to assist with repetitive code structures.
+
+### Arlo (Abby) Staples
+- Package and build errors - used AI to assist with resolving package-related issues, Gradle errors and project configuration.
+- Errors - used AI to help understand compiler errors and suggest possible causes and solutions.
+- Configuration - used AI to assist with Gradle configuration.
 
 ## References
