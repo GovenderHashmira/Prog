@@ -28,16 +28,13 @@ fun StudentDto.toDomain() = Student(
     grade = gradeName ?: gradeId,
     school = schoolName ?: schoolId
 )
-
-fun Student.toDto() = StudentDto(
-    studentId = id,
-    userId = null,
-    schoolId = school,
-    gradeId = grade,
-    firstName = name.substringBefore(" ", name),
-    lastName = name.substringAfter(" ", ""),
-    studentNumber = "",
-    active = true,
-    schoolName = school,
-    gradeName = grade
+fun StudentDto.toEntity() = StudentEntity(
+    studentId = studentId,
+    userId = userId,
+    schoolId = schoolId,
+    gradeId = gradeId,
+    firstName = firstName,
+    lastName = lastName,
+    studentNumber = studentNumber,
+    active = active
 )

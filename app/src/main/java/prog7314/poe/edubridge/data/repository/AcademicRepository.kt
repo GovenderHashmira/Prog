@@ -1,15 +1,23 @@
 package prog7314.poe.edubridge.data.repository
 
 import android.util.Log
-import prog7314.poe.edubridge.data.local.dao.*
-import prog7314.poe.edubridge.util.Resource.*
-import prog7314.poe.edubridge.data.mapper.*
-import prog7314.poe.edubridge.data.remote.*
-import prog7314.poe.edubridge.data.model.*
-import prog7314.poe.edubridge.util.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import prog7314.poe.edubridge.data.local.dao.AttendanceDao
+import prog7314.poe.edubridge.data.local.dao.MarkDao
+import prog7314.poe.edubridge.data.local.dao.TimetableDao
+import prog7314.poe.edubridge.data.mapper.toDomain
+import prog7314.poe.edubridge.data.mapper.toEntity
+import prog7314.poe.edubridge.data.model.Attendance
+import prog7314.poe.edubridge.data.model.ClassPeriod
+import prog7314.poe.edubridge.data.model.Mark
+import prog7314.poe.edubridge.data.model.Timetable
+import prog7314.poe.edubridge.data.remote.EduBridgeApi
+import prog7314.poe.edubridge.util.Resource
 import java.io.IOException
-import javax.inject.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class AcademicRepository @Inject constructor(
@@ -30,18 +38,23 @@ class AcademicRepository @Inject constructor(
         markDao.clearForStudent(studentId)
         markDao.upsertAll(dtos.map { it.toEntity() })
         Log.d(TAG, "Cached ${dtos.size} marks")
-        Success(dtos.map { it.toDomain() })
+        Resource.Success(dtos.map { it.toDomain() })
     } catch (e: IOException) {
         Log.e(TAG, "Network failure fetching marks", e)
-        Error("Offline — showing cached marks", e)
+        Resource.Error("Offline — showing cached marks", e)
     }
 
     // ── Attendance ───────────────────────────────────────
     fun observeAttendance(studentId: String): Flow<List<Attendance>> =
         attendanceDao.observeByStudent(studentId).map { list -> list.map { it.toDomain() } }
 
-    fun observeAttendanceRange(studentId: String, from: String, to: String): Flow<List<Attendance>> =
-        attendanceDao.observeByRange(studentId, from, to).map { list -> list.map { it.toDomain() } }
+    fun observeAttendanceRange(
+        studentId: String,
+        from: String,
+        to: String
+    ): Flow<List<Attendance>> =
+        attendanceDao.observeByRange(studentId, from, to)
+            .map { list -> list.map { it.toDomain() } }
 
     suspend fun refreshAttendance(studentId: String): Resource<List<Attendance>> = try {
         Log.d(TAG, "Fetching attendance for student=$studentId")
@@ -49,7 +62,7 @@ class AcademicRepository @Inject constructor(
         attendanceDao.clearForStudent(studentId)
         attendanceDao.upsertAll(dtos.map { it.toEntity() })
         Log.d(TAG, "Cached ${dtos.size} attendance records")
-        Success(dtos.map { it.toDomain() })
+        Resource.Success(dtos.map { it.toDomain() })
     } catch (e: IOException) {
         Log.e(TAG, "Network failure fetching attendance", e)
         Resource.Error("Offline — showing cached attendance", e)
@@ -57,7 +70,13 @@ class AcademicRepository @Inject constructor(
 
     // ── Timetable ────────────────────────────────────────
     fun observeTimetable(studentId: String): Flow<Timetable?> =
-        timetableDao.observeTimetable(studentId).map { it?.toDomain() }
+        timetableDao.observeTimetable(studentId).map { entity ->
+            entity?.let {
+                val periods = timetableDao.observePeriods(it.timetableId).first()
+                    .map { p -> p.toDomain() }
+                it.toDomain(periods)
+            }
+        }
 
     fun observePeriods(timetableId: String): Flow<List<ClassPeriod>> =
         timetableDao.observePeriods(timetableId).map { list -> list.map { it.toDomain() } }
@@ -65,13 +84,18 @@ class AcademicRepository @Inject constructor(
     suspend fun refreshTimetable(studentId: String): Resource<Timetable> = try {
         Log.d(TAG, "Fetching timetable for student=$studentId")
         val dto = api.getTimetable(studentId)
-        val timetable = dto.toEntity()
-        val periods = dto.periods.map { it.toEntity() }
-        timetableDao.replaceTimetable(timetable, periods)
+
+        val periods = dto.periods.map { it.toDomain() }
+        val timetable = dto.toDomain(periods)
+
+        timetableDao.replaceTimetable(
+            timetable = dto.toEntity(),
+            periods = dto.periods.map { it.toEntity() }
+        )
         Log.d(TAG, "Cached timetable with ${periods.size} periods")
-        Success(dto.toDomain())
+        Resource.Success(timetable)
     } catch (e: IOException) {
         Log.e(TAG, "Network failure fetching timetable", e)
-        Error ("Offline — showing cached timetable", e)
+        Resource.Error("Offline — showing cached timetable", e)
     }
 }
