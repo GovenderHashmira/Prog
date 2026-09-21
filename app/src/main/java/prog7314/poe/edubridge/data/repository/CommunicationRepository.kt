@@ -1,20 +1,19 @@
 package prog7314.poe.edubridge.data.repository
 
+import android.os.Build
 import android.util.Log
-import prog7314.poe.edubridge.data.local.dao.MessageDao
+import androidx.annotation.RequiresApi
+import prog7314.poe.edubridge.data.local.dao.*
 import prog7314.poe.edubridge.data.local.dao.NoticeDao
-import prog7314.poe.edubridge.data.mapper.toDomain
+import prog7314.poe.edubridge.data.mapper.*
 import prog7314.poe.edubridge.data.mapper.toEntity
-import prog7314.poe.edubridge.data.remote.EduBridgeApi
-import prog7314.poe.edubridge.domain.model.Message
-import prog7314.poe.edubridge.domain.model.Notice
+import prog7314.poe.edubridge.data.remote.*
+import prog7314.poe.edubridge.data.model.*
 import prog7314.poe.edubridge.util.Resource
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import java.io.IOException
-import java.time.Instant
-import javax.inject.Inject
-import javax.inject.Singleton
+import kotlinx.coroutines.flow.*
+import java.io.*
+import java.time.Instant.*
+import javax.inject.*
 
 @Singleton
 class CommunicationRepository @Inject constructor(
@@ -66,8 +65,9 @@ class CommunicationRepository @Inject constructor(
         Resource.Error("Offline — showing cached messages", e)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend fun markMessageRead(messageId: String) {
         Log.d(TAG, "Marking message read: $messageId")
-        messageDao.markRead(messageId, Instant.now().toString())
+        messageDao.markRead(messageId, now().toString())
     }
 }

@@ -37,7 +37,7 @@ import prog7314.poe.edubridge.ui.components.EmptyState
 import prog7314.poe.edubridge.ui.components.ErrorState
 import prog7314.poe.edubridge.ui.components.LoadingIndicator
 import prog7314.poe.edubridge.ui.state.ScreenState
-import prog7314.poe.edubridge.ui.util.FormatUtils
+import prog7314.poe.edubridge.util.FormatUtils
 
 @Composable
 fun MessagesScreen(

@@ -1,9 +1,9 @@
-package prog7314.poe.edubridge.ui.util
+package prog7314.poe.edubridge.util
 
+import java.time.DayOfWeek
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
@@ -32,7 +32,7 @@ object FormatUtils {
 
     fun dayLabel(dayOfWeek: Int): String {
         val day = ((dayOfWeek - 1).coerceIn(0, 6)) + 1
-        return java.time.DayOfWeek.of(day)
+        return DayOfWeek.of(day)
             .getDisplayName(TextStyle.SHORT, Locale.getDefault())
     }
 }

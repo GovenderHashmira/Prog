@@ -34,7 +34,7 @@ import prog7314.poe.edubridge.R
 import prog7314.poe.edubridge.ui.components.EduBridgeTopBar
 import prog7314.poe.edubridge.ui.components.EmptyState
 import prog7314.poe.edubridge.ui.sample.SampleData
-import prog7314.poe.edubridge.ui.util.FormatUtils
+import prog7314.poe.edubridge.util.FormatUtils
 
 @Composable
 fun MessageDetailScreen(

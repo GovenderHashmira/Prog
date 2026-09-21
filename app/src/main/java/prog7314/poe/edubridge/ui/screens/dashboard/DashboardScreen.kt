@@ -43,7 +43,7 @@ import prog7314.poe.edubridge.ui.components.SectionHeader
 import prog7314.poe.edubridge.ui.components.SummaryCard
 import prog7314.poe.edubridge.ui.components.WeatherCard
 import prog7314.poe.edubridge.ui.state.ScreenState
-import prog7314.poe.edubridge.ui.util.FormatUtils
+import prog7314.poe.edubridge.util.FormatUtils
 
 @Composable
 fun DashboardScreen(

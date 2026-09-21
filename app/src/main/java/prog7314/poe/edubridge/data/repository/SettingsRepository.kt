@@ -1,19 +1,15 @@
 package prog7314.poe.edubridge.data.repository
 
 import android.util.Log
-import prog7314.poe.edubridge.data.local.dao.SettingsDao
-import prog7314.poe.edubridge.data.mapper.toDomain
-import prog7314.poe.edubridge.data.mapper.toDto
-import prog7314.poe.edubridge.data.mapper.toEntity
-import prog7314.poe.edubridge.data.preferences.UserPreferences
-import prog7314.poe.edubridge.data.remote.EduBridgeApi
-import prog7314.poe.edubridge.domain.model.Settings
-import prog7314.poe.edubridge.util.Resource
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import prog7314.poe.edubridge.data.local.dao.*
+import prog7314.poe.edubridge.data.mapper.*
+import prog7314.poe.edubridge.data.*
+import prog7314.poe.edubridge.data.remote.*
+import prog7314.poe.edubridge.data.model.*
+import prog7314.poe.edubridge.util.*
+import kotlinx.coroutines.flow.*
 import java.io.IOException
-import javax.inject.Inject
-import javax.inject.Singleton
+import javax.inject.*
 
 @Singleton
 class SettingsRepository @Inject constructor(

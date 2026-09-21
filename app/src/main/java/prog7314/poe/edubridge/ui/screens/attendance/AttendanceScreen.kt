@@ -42,7 +42,7 @@ import prog7314.poe.edubridge.ui.components.ErrorState
 import prog7314.poe.edubridge.ui.components.LoadingIndicator
 import prog7314.poe.edubridge.ui.components.SectionHeader
 import prog7314.poe.edubridge.ui.state.ScreenState
-import prog7314.poe.edubridge.ui.util.FormatUtils
+import prog7314.poe.edubridge.util.FormatUtils
 
 @Composable
 fun AttendanceScreen(
