@@ -8,6 +8,7 @@ import prog7314.poe.edubridge.data.remote.*
 import prog7314.poe.edubridge.data.model.*
 import prog7314.poe.edubridge.util.*
 import kotlinx.coroutines.flow.*
+import prog7314.poe.edubridge.data.UserPreferences
 import java.io.IOException
 import javax.inject.*
 

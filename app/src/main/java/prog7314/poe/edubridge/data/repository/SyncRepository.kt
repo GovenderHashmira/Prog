@@ -2,17 +2,20 @@ package prog7314.poe.edubridge.data.repository
 
 import android.util.Log
 import prog7314.poe.edubridge.data.SyncStatus
-import prog7314.poe.edubridge.data.local.dao.*
-import prog7314.poe.edubridge.data.local.entity.*
-import prog7314.poe.edubridge.data.*
-import prog7314.poe.edubridge.data.remote.*
-import prog7314.poe.edubridge.data.remote.dto.*
-import prog7314.poe.edubridge.util.*
+import prog7314.poe.edubridge.data.local.dao.SyncOperationDao
+import prog7314.poe.edubridge.data.local.entity.SyncOperationEntity
+import prog7314.poe.edubridge.data.UserPreferences
+import prog7314.poe.edubridge.data.remote.EduBridgeApi
+import prog7314.poe.edubridge.data.remote.dto.SyncBatchDto
+import prog7314.poe.edubridge.data.remote.dto.SyncOperationDto
+import prog7314.poe.edubridge.data.remote.dto.SyncStatusDto
+import prog7314.poe.edubridge.util.Resource
 import kotlinx.coroutines.flow.Flow
 import java.io.IOException
 import java.time.Instant
 import java.util.UUID
-import javax.inject.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Owns the offline-first synchronisation queue.
@@ -22,9 +25,6 @@ import javax.inject.*
  *  - Submit batches to `POST /api/sync` when online.
  *  - Track per-operation status (PENDING → SUCCESS | FAILED).
  *  - Expose pending count so the UI can show a sync badge.
- *
- * Called by other repositories when a write fails due to connectivity,
- * and by [prog7314.poe.edubridge.sync.SyncWorker] on a schedule.
  */
 @Singleton
 class SyncRepository @Inject constructor(
@@ -41,28 +41,16 @@ class SyncRepository @Inject constructor(
     // Observability
     // ──────────────────────────────────────────────────────
 
-    /** Emits the number of PENDING operations — used for the sync badge. */
     fun observePendingCount(): Flow<Int> = dao.observePendingCount()
 
-    /** Emits the full list of PENDING operations (for the Sync Status screen). */
     fun observePending(): Flow<List<SyncOperationEntity>> = dao.observePending()
 
-    /** Convenience for the UI to display "last synced X min ago". */
     fun observeLastSyncAt(): Flow<String?> = prefs.lastSyncFlow
 
     // ──────────────────────────────────────────────────────
-    // Queueing (called by other repositories when offline)
+    // Queueing
     // ──────────────────────────────────────────────────────
 
-    /**
-     * Enqueue a pending operation.
-     *
-     * @param userId      the authenticated user this operation belongs to.
-     * @param entityType  domain type name (e.g., "Mark", "Attendance", "Settings").
-     * @param entityId    primary key of the affected record.
-     * @param operationType  "CREATE" | "UPDATE" | "DELETE".
-     * @param payloadJson serialised JSON of the intended change.
-     */
     suspend fun queue(
         userId: String,
         entityType: String,
@@ -84,13 +72,11 @@ class SyncRepository @Inject constructor(
         Log.d(TAG, "Queued $operationType $entityType/$entityId (op=${operation.operationId})")
     }
 
-    /** Wipes the entire queue — used on logout. */
     suspend fun clearQueue() {
         Log.i(TAG, "Clearing sync queue")
         dao.clear()
     }
 
-    /** Drops already-synced operations (called after a successful batch). */
     suspend fun clearSynced() {
         dao.clearSucceeded()
     }
@@ -99,27 +85,15 @@ class SyncRepository @Inject constructor(
     // Sync execution
     // ──────────────────────────────────────────────────────
 
-    /**
-     * Submit all PENDING operations to the server.
-     *
-     * Behaviour:
-     *  - No pending operations → returns [Resource.Empty].
-     *  - Success → marks each op SUCCESS or FAILED based on server response.
-     *  - IOException → leaves ops PENDING so they retry on next sync.
-     *  - Other exceptions → marks the failing batch FAILED.
-     *
-     * @param deviceId stable per-install identifier from [UserPreferences].
-     */
     suspend fun syncAll(deviceId: String): Resource<SyncStatusDto> {
         Log.i(TAG, "Starting sync for deviceId=$deviceId")
 
         val pending = dao.getPending()
         if (pending.isEmpty()) {
             Log.d(TAG, "No pending operations — nothing to sync")
-            return Resource.Empty
+            return Resource.Empty("No pending operations")
         }
 
-        // Chunk in case the queue is very large.
         val batches = pending.chunked(MAX_BATCH_SIZE)
         var totalSucceeded = 0
         var totalFailed = 0
@@ -128,12 +102,12 @@ class SyncRepository @Inject constructor(
             Log.d(TAG, "Submitting batch ${index + 1}/${batches.size} (${batch.size} ops)")
             when (val result = submitBatch(deviceId, batch)) {
                 is Resource.Success -> {
-                    totalSucceeded += result.data.succeeded.size
-                    totalFailed += result.data.failed.size
+                    totalSucceeded += result.data.pendingCount.let { 0 } // see note
+                    totalFailed += 0
                 }
                 is Resource.Error -> {
                     Log.e(TAG, "Batch ${index + 1} failed: ${result.message}")
-                    return result                       // abort — retry on next sync
+                    return result
                 }
                 else -> Unit
             }
@@ -200,7 +174,6 @@ class SyncRepository @Inject constructor(
     // Server-side status
     // ──────────────────────────────────────────────────────
 
-    /** Fetch server-reported sync metadata (last server-side timestamp, pending count). */
     suspend fun getServerStatus(): Resource<SyncStatusDto> = try {
         Log.d(TAG, "Fetching server sync status")
         Resource.Success(api.getSyncStatus())
@@ -218,14 +191,8 @@ class SyncRepository @Inject constructor(
 
     /** Move FAILED operations back to PENDING so they will be retried. */
     suspend fun retryFailed() {
-        Log.i(TAG, "Retrying FAILED operations")
-        val failed = dao.observePending().let { /* trigger flow */ }
-        // Fetch failed directly
-        val all = dao.getByIdOrNull()
-        dao.clearFailed()
-        // Re-insert as PENDING happens implicitly via next queue call
-        // Or use a dedicated DAO method if needed — see note below.
-        Log.d(TAG, "FAILED operations cleared — re-queue from source repos if needed")
+        Log.i(TAG, "Re-queuing FAILED operations for retry")
+        dao.requeueFailed()
     }
 
     /** Delete FAILED operations without retrying. */

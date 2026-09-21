@@ -1,6 +1,5 @@
 package prog7314.poe.edubridge.data.remote
 
-import androidx.room.Query
 import prog7314.poe.edubridge.data.remote.dto.WeatherResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Query

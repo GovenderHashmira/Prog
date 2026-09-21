@@ -3,6 +3,12 @@ package prog7314.poe.edubridge.data
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -10,7 +16,12 @@ import kotlinx.coroutines.flow.map
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.text.get
+
+/**
+ * Top-level DataStore delegate. Only ONE declaration per file per name
+ * is permitted in Kotlin — must live outside the class.
+ */
+private val Context.dataStore by preferencesDataStore(name = "edubridge_prefs")
 
 /**
  * Single access point for all persisted user preferences.
@@ -18,8 +29,6 @@ import kotlin.text.get
  * Two backends:
  *  - [EncryptedSharedPreferences] for tokens (hardware-backed encryption).
  *  - [DataStore] for non-sensitive flags (language, biometric toggle, active student).
- *
- * Every method is safe to call from any dispatcher; DataStore handles its own IO.
  */
 @Singleton
 class UserPreferences @Inject constructor(
@@ -34,28 +43,24 @@ class UserPreferences @Inject constructor(
         const val KEY_REFRESH_TOKEN = "refresh_token"
         const val KEY_DEVICE_ID = "device_id"
 
-        // DataStore keys
-        const val DATASTORE_NAME = "edubridge_prefs"
         const val DEFAULT_LANGUAGE = "en"
     }
 
     // ──────────────────────────────────────────────────────
-    // DataStore — non-sensitive preferences
+    // DataStore keys
     // ──────────────────────────────────────────────────────
-    private val Context.dataStore by preferencesDataStore(name = DATASTORE_NAME)
-
     private object Keys {
-        val LANGUAGE = stringPreferencesKey("language")
-        val BIOMETRIC_ENABLED = booleanPreferencesKey("biometric_enabled")
-        val NOTIFICATION_ENABLED = booleanPreferencesKey("notification_enabled")
-        val DARK_MODE_ENABLED = booleanPreferencesKey("dark_mode_enabled")
-        val ACTIVE_STUDENT = stringPreferencesKey("active_student")
-        val WEATHER_CITY = stringPreferencesKey("weather_city")
-        val LAST_SYNC_AT = stringPreferencesKey("last_sync_at")
+        val LANGUAGE              = stringPreferencesKey("language")
+        val BIOMETRIC_ENABLED     = booleanPreferencesKey("biometric_enabled")
+        val NOTIFICATION_ENABLED  = booleanPreferencesKey("notification_enabled")
+        val DARK_MODE_ENABLED     = booleanPreferencesKey("dark_mode_enabled")
+        val ACTIVE_STUDENT        = stringPreferencesKey("active_student")
+        val WEATHER_CITY          = stringPreferencesKey("weather_city")
+        val LAST_SYNC_AT          = stringPreferencesKey("last_sync_at")
     }
 
     // ──────────────────────────────────────────────────────
-    // EncryptedSharedPreferences — tokens
+    // EncryptedSharedPreferences
     // ──────────────────────────────────────────────────────
     private val masterKey: MasterKey by lazy {
         MasterKey.Builder(context)
@@ -74,7 +79,7 @@ class UserPreferences @Inject constructor(
     }
 
     // ──────────────────────────────────────────────────────
-    // Tokens (synchronous — wrapped by interceptor's runBlocking)
+    // Tokens
     // ──────────────────────────────────────────────────────
 
     fun saveAccessToken(token: String) {
@@ -82,23 +87,16 @@ class UserPreferences @Inject constructor(
         securePrefs.edit().putString(KEY_ACCESS_TOKEN, token).apply()
     }
 
-    /**
-     * Suspend version so repositories can read on the IO dispatcher.
-     * The interceptor calls this inside `runBlocking` — that's fine because
-     * EncryptedSharedPreferences reads are in-memory after the first load.
-     */
-    suspend fun getAccessToken(): String? {
-        return securePrefs.getString(KEY_ACCESS_TOKEN, null)
-    }
+    suspend fun getAccessToken(): String? =
+        securePrefs.getString(KEY_ACCESS_TOKEN, null)
 
     fun saveRefreshToken(token: String) {
         Log.d(TAG, "Saving refresh token")
         securePrefs.edit().putString(KEY_REFRESH_TOKEN, token).apply()
     }
 
-    suspend fun getRefreshToken(): String? {
-        return securePrefs.getString(KEY_REFRESH_TOKEN, null)
-    }
+    suspend fun getRefreshToken(): String? =
+        securePrefs.getString(KEY_REFRESH_TOKEN, null)
 
     fun clearTokens() {
         Log.i(TAG, "Clearing tokens")
@@ -109,7 +107,7 @@ class UserPreferences @Inject constructor(
     }
 
     // ──────────────────────────────────────────────────────
-    // Device ID (persistent across sessions)
+    // Device ID
     // ──────────────────────────────────────────────────────
 
     fun getOrCreateDeviceId(): String {
@@ -176,7 +174,7 @@ class UserPreferences @Inject constructor(
     }
 
     // ──────────────────────────────────────────────────────
-    // Active student (for multi-child parents)
+    // Active student
     // ──────────────────────────────────────────────────────
 
     val activeStudentFlow: Flow<String?> = context.dataStore.data
@@ -223,18 +221,11 @@ class UserPreferences @Inject constructor(
     // Session lifecycle
     // ──────────────────────────────────────────────────────
 
-    /**
-     * Called on logout — clears auth tokens and per-user preferences.
-     * Does NOT clear language (user preference survives re-login).
-     */
     fun clearSession() {
         Log.i(TAG, "Clearing session")
         clearTokens()
     }
 
-    /**
-     * Full reset — used when the user explicitly deletes all local data.
-     */
     suspend fun clearAll() {
         Log.w(TAG, "Full preferences reset")
         clearTokens()

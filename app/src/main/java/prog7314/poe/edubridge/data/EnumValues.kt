@@ -2,6 +2,8 @@ package prog7314.poe.edubridge.data
 
 /**
  * Shared enums used across the data layer, repositories and UI.
+ * Kept in the root `data` package so all layers can reference them
+ * without depending on a specific sub-package.
  */
 
 /** User roles in the system. Enforced server-side; used client-side for UI routing only. */
@@ -52,12 +54,15 @@ enum class NoticePriority {
             entries.firstOrNull { it.name.equals(value, ignoreCase = true) } ?: MEDIUM
     }
 }
-    enum class OperationType {
-        CREATE, UPDATE, DELETE;
 
-        companion object {
-            fun fromString(value: String?): OperationType =
-                entries.firstOrNull { it.name.equals(value, ignoreCase = true) }
-                    ?: OperationType.CREATE
-        }
+/** Type of queued offline operation sent to POST /api/sync. */
+enum class OperationType {
+    CREATE,
+    UPDATE,
+    DELETE;
+
+    companion object {
+        fun fromString(value: String?): OperationType =
+            entries.firstOrNull { it.name.equals(value, ignoreCase = true) } ?: CREATE
     }
+}

@@ -4,7 +4,7 @@ import android.util.Log
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
-import prog7314.poe.edubridge.data.preferences.UserPreferences
+import prog7314.poe.edubridge.data.UserPreferences
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
