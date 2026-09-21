@@ -6,42 +6,38 @@ import prog7314.poe.edubridge.data.remote.dto.StudentDto
 
 fun StudentEntity.toDomain() = Student(
     id = studentId,
-    fullName = "$firstName $lastName".trim(),
-    gradeName = gradeId,
-    schoolName = schoolId,
-    studentNumber = studentNumber,
-    active = active
+    name = "$firstName $lastName".trim(),
+    grade = gradeId,
+    school = schoolId
 )
 
 fun Student.toEntity() = StudentEntity(
     studentId = id,
     userId = null,
-    schoolId = schoolName,
-    gradeId = gradeName,
-    firstName = fullName.substringBefore(" ", fullName),
-    lastName = fullName.substringAfter(" ", ""),
-    studentNumber = studentNumber,
-    active = active
+    schoolId = school,
+    gradeId = grade,
+    firstName = name.substringBefore(" ", name),
+    lastName = name.substringAfter(" ", ""),
+    studentNumber = "",
+    active = true
 )
 
 fun StudentDto.toDomain() = Student(
     id = studentId,
-    fullName = "$firstName $lastName".trim(),
-    gradeName = gradeName ?: gradeId,
-    schoolName = schoolName ?: schoolId,
-    studentNumber = studentNumber,
-    active = active
+    name = "$firstName $lastName".trim(),
+    grade = gradeName ?: gradeId,
+    school = schoolName ?: schoolId
 )
 
 fun Student.toDto() = StudentDto(
     studentId = id,
     userId = null,
-    schoolId = schoolName,
-    gradeId = gradeName,
-    firstName = fullName.substringBefore(" ", fullName),
-    lastName = fullName.substringAfter(" ", ""),
-    studentNumber = studentNumber,
-    active = active,
-    schoolName = schoolName,
-    gradeName = gradeName
+    schoolId = school,
+    gradeId = grade,
+    firstName = name.substringBefore(" ", name),
+    lastName = name.substringAfter(" ", ""),
+    studentNumber = "",
+    active = true,
+    schoolName = school,
+    gradeName = grade
 )

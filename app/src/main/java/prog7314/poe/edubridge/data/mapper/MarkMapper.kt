@@ -6,30 +6,30 @@ import prog7314.poe.edubridge.data.remote.dto.ResultDto
 import java.time.Instant
 
 fun MarkEntity.toDomain() = Mark(
-    id = markId,
-    subjectName = subjectName,
-    assessmentName = assessmentName,
-    score = score,
-    period = academicPeriod
+    id = markId.hashCode(),
+    studentId = studentId,
+    subject = subjectName,
+    score = score.toInt(),
+    term = academicPeriod
 )
 
-fun Mark.toEntity(studentId: String, subjectId: String) = MarkEntity(
-    markId = id,
+fun Mark.toEntity(subjectId: String) = MarkEntity(
+    markId = id.toString(),
     studentId = studentId,
     subjectId = subjectId,
-    subjectName = subjectName,
-    assessmentName = assessmentName,
-    score = score,
-    academicPeriod = period,
+    subjectName = subject,
+    assessmentName = term,
+    score = score.toDouble(),
+    academicPeriod = term,
     updatedAt = Instant.now()
 )
 
 fun ResultDto.toDomain() = Mark(
-    id = resultId,
-    subjectName = subjectName,
-    assessmentName = assessmentName,
-    score = score,
-    period = academicPeriod
+    id = resultId.hashCode(),
+    studentId = studentId,
+    subject = subjectName,
+    score = score.toInt(),
+    term = academicPeriod
 )
 
 fun ResultDto.toEntity() = MarkEntity(

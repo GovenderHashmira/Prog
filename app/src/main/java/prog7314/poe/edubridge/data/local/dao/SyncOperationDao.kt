@@ -9,6 +9,10 @@ import prog7314.poe.edubridge.data.local.entity.SyncOperationEntity
 @Dao
 interface SyncOperationDao {
 
+    // ──────────────────────────────────────────────────────
+    // Read
+    // ──────────────────────────────────────────────────────
+
     @Query("""
         SELECT * FROM sync_operations
         WHERE syncStatus = 'PENDING'
@@ -28,6 +32,13 @@ interface SyncOperationDao {
 
     @Query("SELECT * FROM sync_operations WHERE operationId = :operationId LIMIT 1")
     suspend fun getById(operationId: String): SyncOperationEntity?
+
+    @Query("SELECT * FROM sync_operations WHERE syncStatus = 'FAILED'")
+    suspend fun getFailed(): List<SyncOperationEntity>          // ← NEW
+
+    // ──────────────────────────────────────────────────────
+    // Write
+    // ──────────────────────────────────────────────────────
 
     @Upsert
     suspend fun upsert(operation: SyncOperationEntity)
@@ -56,12 +67,23 @@ interface SyncOperationDao {
     """)
     suspend fun markFailed(operationIds: List<String>)
 
+    /** Move all FAILED operations back to PENDING so they will be retried. */
+    @Query("""
+        UPDATE sync_operations
+        SET syncStatus = 'PENDING'
+        WHERE syncStatus = 'FAILED'
+    """)
+    suspend fun requeueFailed()                                  // ← NEW
+
+    /** Delete all operations that succeeded. */
     @Query("DELETE FROM sync_operations WHERE syncStatus = 'SUCCESS'")
     suspend fun clearSucceeded()
 
+    /** Delete all operations that failed. */
     @Query("DELETE FROM sync_operations WHERE syncStatus = 'FAILED'")
     suspend fun clearFailed()
 
+    /** Wipe the entire queue. */
     @Query("DELETE FROM sync_operations")
     suspend fun clear()
 }

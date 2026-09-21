@@ -9,7 +9,6 @@ import prog7314.poe.edubridge.util.*
 import kotlinx.coroutines.flow.*
 import prog7314.poe.edubridge.data.*
 import prog7314.poe.edubridge.data.model.*
-import prog7314.poe.edubridge.data.preferences.UserPreferences
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton

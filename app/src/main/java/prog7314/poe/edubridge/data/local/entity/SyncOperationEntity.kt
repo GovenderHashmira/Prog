@@ -15,7 +15,7 @@ data class SyncOperationEntity(
     val userId: String,
     val entityType: String,
     val entityId: String,
-    val operationType: String =OperationType.CREATE,
+    val operationType: String = OperationType.CREATE.toString(),
     val payloadJson: String,
     val clientTimestamp: Instant,
     val syncStatus: SyncStatus = SyncStatus.PENDING

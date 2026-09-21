@@ -7,26 +7,28 @@ import prog7314.poe.edubridge.data.remote.dto.AttendanceDto
 import java.time.Instant
 
 fun AttendanceEntity.toDomain() = Attendance(
-    id = attendanceId,
-    date = date,
-    status = status,
-    comment = notes
-)
-
-fun Attendance.toEntity(studentId: String) = AttendanceEntity(
-    attendanceId = id,
+    id = attendanceId.hashCode(),
     studentId = studentId,
     date = date,
     status = status,
-    notes = comment,
+    notes = notes
+)
+
+fun Attendance.toEntity() = AttendanceEntity(
+    attendanceId = id.toString(),
+    studentId = studentId,
+    date = date,
+    status = status,
+    notes = notes,
     updatedAt = Instant.now()
 )
 
 fun AttendanceDto.toDomain() = Attendance(
-    id = attendanceId,
+    id = attendanceId.hashCode(),
+    studentId = studentId,
     date = date,
     status = AttendanceStatus.fromString(status),
-    comment = notes
+    notes = notes
 )
 
 fun AttendanceDto.toEntity() = AttendanceEntity(
