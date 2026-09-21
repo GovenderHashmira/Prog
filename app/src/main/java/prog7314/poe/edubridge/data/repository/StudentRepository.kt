@@ -31,7 +31,7 @@ class StudentRepository @Inject constructor(
                 Log.w(TAG, "API returned empty student list")
                 return Resource.Empty("No students found")
             }
-            dao.upsertAll(dtos.map { it.toEntity() })
+            dao.upsertAll(dtos.map { it.toDomain().toEntity() })
             Log.d(TAG, "Cached ${dtos.size} students")
             Resource.Success(dtos.map { it.toDomain() })
         } catch (e: IOException) {

@@ -57,7 +57,15 @@ class AcademicRepository @Inject constructor(
 
     // ── Timetable ────────────────────────────────────────
     fun observeTimetable(studentId: String): Flow<Timetable?> =
-        timetableDao.observeTimetable(studentId).map { it?.toDomain() }
+        timetableDao.observeTimetable(studentId).flatMapLatest { entity ->
+            if (entity == null) {
+                flowOf(null)
+            } else {
+                timetableDao.observePeriods(entity.timetableId).map { periodEntities ->
+                    entity.toDomain(periodEntities.map { it.toDomain() })
+                }
+            }
+        }
 
     fun observePeriods(timetableId: String): Flow<List<ClassPeriod>> =
         timetableDao.observePeriods(timetableId).map { list -> list.map { it.toDomain() } }
@@ -69,7 +77,7 @@ class AcademicRepository @Inject constructor(
         val periods = dto.periods.map { it.toEntity() }
         timetableDao.replaceTimetable(timetable, periods)
         Log.d(TAG, "Cached timetable with ${periods.size} periods")
-        Success(dto.toDomain())
+        Success(dto.toDomain(dto.periods.map { it.toDomain() }))
     } catch (e: IOException) {
         Log.e(TAG, "Network failure fetching timetable", e)
         Error ("Offline — showing cached timetable", e)

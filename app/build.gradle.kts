@@ -27,7 +27,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "API_BASE_URL", "\"https://dev-api.edubridge.local/\"")
+            // inherits API_BASE_URL from defaultConfig
         }
         release {
             isMinifyEnabled = false
@@ -69,14 +69,14 @@ ksp {
 }
 
 dependencies {
-    // AndroidX
+    // ── AndroidX ──────────────────────────────────────
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
 
-    // Compose — BOM once for main, once for androidTest
+    // ── Compose (BOM controls library versions) ───────
     implementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(platform(libs.androidx.compose.bom))
 
@@ -94,7 +94,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     androidTestImplementation(libs.androidx.ui.test.junit4)
 
-    // Ktor
+    // ── Ktor (Member 2 — Khumo Machoga) ───────────────
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
     implementation(libs.ktor.server.content.negotiation)
@@ -105,40 +105,36 @@ dependencies {
     implementation(libs.ktor.server.default.headers)
     implementation(libs.gson)
 
-<<<<<<< Updated upstream
-    // Tests
-=======
-    //Member 2 — API tests - KHUMO MACHOGA
->>>>>>> Stashed changes
+    // ── Tests (Member 2 — API tests — Khumo Machoga) ──
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.truth)
     testImplementation(libs.coroutines.test)
 
-    // Room
+    // ── Room (Arlo Staples) ───────────────────────────
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
     testImplementation(libs.androidx.room.testing)
 
-    // DataStore + Security + Coroutines
+    // ── DataStore + Security + Coroutines (Arlo Staples) ──
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.security.crypto)
     implementation(libs.coroutines.android)
 
-    // Retrofit
+    // ── Retrofit ──────────────────────────────────────
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp.logging)
 
-    // Hilt
+    // ── Hilt ──────────────────────────────────────────
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-    // Hilt WorkManager
+    // ── Hilt WorkManager ──────────────────────────────
     implementation(libs.hilt.work)
     ksp(libs.hilt.work.compiler)
     implementation(libs.work.runtime.ktx)
 
-    // Desugaring
+    // ── Desugaring (java.time.* on API < 26) ──────────
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 }

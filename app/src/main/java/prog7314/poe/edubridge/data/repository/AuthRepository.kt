@@ -32,7 +32,7 @@ class AuthRepository @Inject constructor(
             )
             prefs.saveAccessToken(response.accessToken)
             response.refreshToken?.let { prefs.saveRefreshToken(it) }
-            val entity = response.user.toEntity()
+            val entity = response.user.toDomain().toEntity()
             userDao.upsert(entity)
             Log.d(TAG, "Login succeeded userId=${entity.userId}")
             Resource.Success(entity.toDomain())
