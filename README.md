@@ -19,7 +19,6 @@ Authorized users can use this single mobile platform to access information such 
 - Student profiles settings and preferences
 - School location information
 - Weather information
-- Push notifications
 
 EduBridge is designed using a role-based architecture where the application communicates with a hosted REST API. The API is responsible for authentication, authorisation, validation, business rules and access to data.
 
@@ -60,7 +59,8 @@ The EduBridge application includes this functionality:
 This application does not replace a school’s complete administration or learning management system.
 
 ## Architecture Diagram
-<img src ="Architecture Diagram PROG.png">
+<img src ="Architecture Diagram PROG.png"> \
+Caption: Architecture Diagram  created using draw.io Diagrams
 
 ## Technology Stack
 |Layer |Technology |Purpose |
