@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import prog7314.poe.edubridge.ui.components.BottomNavBar
 import prog7314.poe.edubridge.ui.screens.attendance.AttendanceScreen
 import prog7314.poe.edubridge.ui.screens.biometrics.BiometricScreen
@@ -57,7 +58,10 @@ fun EduBridgeNavGraph(
                     currentRoute = currentRoute,
                     onItemSelected = { route ->
                         navController.navigate(route) {
-                            popUpTo(Routes.DASHBOARD) { saveState = true }
+                            // Pop everything up to the start of the graph
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
                             launchSingleTop = true
                             restoreState = true
                         }

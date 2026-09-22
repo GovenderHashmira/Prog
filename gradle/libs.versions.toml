@@ -25,6 +25,9 @@ coroutines = "1.9.0"
 datastore = "1.1.1"
 securityCrypto = "1.1.0-alpha06"
 
+# KHUMO
+hiltNavigationCompose = "1.2.0"
+
 # Compose (HASHMIRA)
 composeBom = "2024.09.03"
 activityCompose = "1.9.1"
@@ -72,6 +75,7 @@ hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.re
 hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hiltWork" }
 hilt-work-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltWork" }
 work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
+androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 
 # ── DataStore + Security + Coroutines ─────────────────
 security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }

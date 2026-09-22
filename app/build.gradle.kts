@@ -19,7 +19,9 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        buildConfigField("String", "API_BASE_URL", "\"https://dev-api.edubridge.local/\"")
+        manifestPlaceholders["MAPS_API_KEY"] = secret("MAPS_API_KEY")
+
+        buildConfigField("String", "API_BASE_URL", "\"http://127.0.0.1:8080/\"")
         buildConfigField("String", "WEATHER_API_KEY", "\"${secret("WEATHER_API_KEY")}\"")
         buildConfigField("String", "MAPS_API_KEY", "\"${secret("MAPS_API_KEY")}\"")
 
@@ -94,6 +96,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     androidTestImplementation(libs.androidx.ui.test.junit4)
 
+    // ── Hilt Navigation Compose (needed for hiltViewModel()) ──
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+
     // ── Ktor (Member 2 — Khumo Machoga) ───────────────
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
@@ -137,6 +142,10 @@ dependencies {
 
     // ── Desugaring (java.time.* on API < 26) ──────────
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+    // ── Google Maps (Member 3) ────────────────────────
+    implementation("com.google.maps.android:maps-compose:4.3.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 }
 
 fun secret(key: String, fallback: String = ""): String {

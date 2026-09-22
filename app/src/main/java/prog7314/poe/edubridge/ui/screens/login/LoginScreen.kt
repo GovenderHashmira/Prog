@@ -1,16 +1,7 @@
 package prog7314.poe.edubridge.ui.screens.login
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,37 +10,35 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.School
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.ui.res.stringResource
 import prog7314.poe.edubridge.R
 
 @Composable
 fun LoginScreen(
     onAuthenticated: () -> Unit,
-    onCreateAccount: () -> Unit = {},
-    viewModel: LoginViewModel = viewModel()
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    if (state.isAuthenticated) {
-        onAuthenticated()
+    // Fire navigation exactly ONCE when the flag flips true.
+    // Do NOT call onAuthenticated() directly in the composable body.
+    LaunchedEffect(state.isAuthenticated) {
+        if (state.isAuthenticated) {
+            onAuthenticated()
+        }
     }
 
     Column(
@@ -74,39 +63,59 @@ fun LoginScreen(
                 modifier = Modifier.size(40.dp)
             )
         }
+
         Text(
-            text = stringResource(R.string.login_welcome),
+            text = if (state.isRegisterMode) "Create Parent Account" else "Welcome Back",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.padding(top = 20.dp)
         )
         Text(
-            text = stringResource(R.string.login_subtitle),
+            text = "Secure access to your student's academic journey",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 6.dp)
         )
         Spacer(Modifier.height(28.dp))
+
+        // Email
         OutlinedTextField(
             value = state.email,
             onValueChange = viewModel::onEmailChanged,
-            label = { Text(stringResource(R.string.login_email_label)) },
+            label = { Text("Email") },
             singleLine = true,
             isError = state.emailInvalid,
             enabled = !state.isLoading,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             supportingText = {
                 if (state.emailInvalid) {
-                    Text(
-                        text = stringResource(R.string.login_email_error),
-                        color = MaterialTheme.colorScheme.error
-                    )
+                    Text("Enter a valid email address", color = MaterialTheme.colorScheme.error)
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(Modifier.height(12.dp))
+
+        // Password
+        OutlinedTextField(
+            value = state.password,
+            onValueChange = viewModel::onPasswordChanged,
+            label = { Text("Password") },
+            singleLine = true,
+            isError = state.passwordInvalid,
+            enabled = !state.isLoading,
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            supportingText = {
+                if (state.passwordInvalid) {
+                    Text("Password must be at least 6 characters", color = MaterialTheme.colorScheme.error)
                 }
             },
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(Modifier.height(16.dp))
+
+        // Primary button
         Button(
             onClick = viewModel::continueWithSso,
             enabled = !state.isLoading,
@@ -125,7 +134,7 @@ fun LoginScreen(
             } else {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = stringResource(R.string.login_continue_sso),
+                        text = if (state.isRegisterMode) "Create Account" else "Continue with SSO",
                         style = MaterialTheme.typography.labelLarge,
                         color = Color.White
                     )
@@ -140,16 +149,29 @@ fun LoginScreen(
             }
         }
         Spacer(Modifier.height(12.dp))
+
+        // Toggle mode button
         OutlinedButton(
-            onClick = onCreateAccount,
+            onClick = viewModel::toggleMode,
             enabled = !state.isLoading,
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp)
         ) {
-            Text(text = stringResource(R.string.login_create_account))
+            Text(if (state.isRegisterMode) "Back to Login" else "Create Parent Account")
         }
+
+        // Error message
+        if (state.errorMessage != null) {
+            Spacer(Modifier.height(16.dp))
+            Text(
+                text = state.errorMessage!!,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+
         Spacer(Modifier.height(28.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -164,7 +186,7 @@ fun LoginScreen(
             )
             Spacer(Modifier.size(8.dp))
             Text(
-                text = stringResource(R.string.login_encrypted_note),
+                text = "Your data is encrypted and secure",
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
