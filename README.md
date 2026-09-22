@@ -133,3 +133,14 @@ The workflow is triggered when changes to code are pushed to the repository and 
 - Configuration - used AI to assist with Gradle configuration.
 
 ## References
+Android Developers. (2024). Android gradle plugin 8.7.0 (October 2024). [online] Available at: https://developer.android.google.cn/build/releases/agp-8-7-0-release-notes [Accessed 22 Sept. 2026]. \
+Android Developers (2025) BuildFeatures. [online] Available at: https://developer.android.com/reference/tools/gradle-api/7.1/com/android/build/api/dsl/BuildFeatures.html [Accessed: 22 September 2026]. \
+Android Developers (2025) Java 8+ API desugaring support. [online] Available at: https://developer.android.com/studio/write/java8-support-table [Accessed: 22 September 2026]. \
+Android Developers (2025) Java 11+ APIs available through desugaring. [online] Available at: https://developer.android.google.cn/studio/write/java11-default-support-table [Accessed: 22 September 2026]. \
+Dagger.dev. (2026). Conflicting `@inject`. [online] Available at: https://dagger.dev/conflicting-inject.html [Accessed 22 Sept. 2026]. \
+Gradle (2024) Gradle 8.10.2 release notes. [online] Available at: https://docs.gradle.org/8.10.2/release-notes.html [Accessed: 22 September 2026]. \
+Gradle (n.d.) Toolchains for JVM projects. [online] Available at: https://docs.gradle.org/current/userguide/toolchains.html [Accessed: 22 September 2026]. \
+Ktor Help. (2024). Custom plugins | Ktor. [online] Available at: https://ktor.io/docs/2.3.13/server-custom-plugins.html#webpage [Accessed 22 Sept. 2026]. \
+Ktor (2025) Custom server plugins. [online] Available at: https://ktor.io/docs/server-custom-plugins.html [Accessed: 22 September 2026]. \
+Openjdk.org. (2024). Loading... [online] Available at: https://bugs.openjdk.org/browse/JDK-8341167 [Accessed 22 Sept. 2026]. \
+W3Schools. (2026). Kotlin online compiler (editor / interpreter). [online] Available at: https://www.w3schools.com/kotlin/kotlin_compiler.php [Accessed 22 Sept. 2026].
