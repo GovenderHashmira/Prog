@@ -63,6 +63,7 @@ object NetworkModule {
     // ── Retrofit for the EduBridge API ──────────────────
     @Provides
     @Singleton
+    @Named("eduBridgeRetrofit")
     fun provideRetrofit(
         @Named("authClient") client: OkHttpClient
     ): Retrofit = Retrofit.Builder()
@@ -73,6 +74,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideEduBridgeApi(retrofit: Retrofit): EduBridgeApi =
-        retrofit.create(EduBridgeApi::class.java)
+    fun provideEduBridgeApi(
+        @Named("eduBridgeRetrofit") retrofit: Retrofit   // ← add @Named
+    ): EduBridgeApi = retrofit.create(EduBridgeApi::class.java)
 }

@@ -20,6 +20,7 @@ object WeatherModule {
 
     @Provides
     @Singleton
+    @Named("weatherRetrofit")
     fun provideWeatherRetrofit(
         @Named("plainClient") client: OkHttpClient
     ): Retrofit = Retrofit.Builder()
@@ -30,8 +31,9 @@ object WeatherModule {
 
     @Provides
     @Singleton
-    fun provideWeatherApi(retrofit: Retrofit): WeatherApi =
-        retrofit.create(WeatherApi::class.java)
+    fun provideWeatherApi(
+        @Named("weatherRetrofit") retrofit: Retrofit    // ← add @Named
+    ): WeatherApi = retrofit.create(WeatherApi::class.java)
 
     @Provides
     @Singleton
