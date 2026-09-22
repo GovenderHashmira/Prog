@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Same as Navy in ui/theme/Color.kt, used for the window behind Compose. -->
+    <color name="edubridge_navy">#FF1D3A5F</color>
 </resources>

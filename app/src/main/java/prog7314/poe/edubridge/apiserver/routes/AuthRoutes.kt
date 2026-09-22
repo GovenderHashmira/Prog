@@ -8,11 +8,12 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import prog7314.poe.edubridge.apiserver.models.*
 import prog7314.poe.edubridge.apiserver.data.*
+import java.time.Instant
 
 /**
  * Authentication endpoints.
  *
- * POST /api/auth/sso      — SSO login (matches team Retrofit)
+ * POST /api/auth/sso      — login used by the app (matches EduBridgeApi.authenticateSso())
  * POST /api/auth/login    — legacy login (kept for direct testing)
  * POST /api/auth/register — create new parent account
  * POST /api/auth/refresh  — refresh access token
@@ -21,52 +22,44 @@ import prog7314.poe.edubridge.apiserver.data.*
 fun Route.authRoutes() {
     route("/api/auth") {
 
-        // ⭐ Primary endpoint — matches EduBridgeApi.authenticateSso()
+        // Body: { provider, identityToken, deviceId }
+        // Mock SSO: identityToken is "email:password".
+        // provider == "register" creates the account if it doesn't exist yet.
         post("/sso") {
             val body = call.receive<Map<String, String>>()
-            val email = body["identityToken"]?.substringBefore(":") ?: body["email"] ?: ""
-            val provider = body["provider"] ?: "mock"
+            val token = body["identityToken"].orEmpty()
+            val email = token.substringBefore(":").trim()
+            val password = if (":" in token) token.substringAfter(":") else ""
+            val provider = body["provider"] ?: "local"
             ApiLogger.d("POST /api/auth/sso provider=$provider email=$email")
 
-            if (email.isBlank()) {
-                call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Missing identity token"))
+            if (email.isBlank() || password.isBlank()) {
+                call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Email and password required"))
                 return@post
             }
 
-            // Find or create user by email
             var user = ApiDatabase.users.firstOrNull { it.email.equals(email, ignoreCase = true) }
-            if (user == null) {
-                user = ApiUser(
-                    id = "u-${ApiDatabase.users.size + 1}",
-                    name = email.substringBefore("@").replaceFirstChar { it.uppercase() },
-                    email = email,
-                    password = "sso-managed",
-                    role = "Parent",
-                    linkedStudentIds = listOf("stu-1")
-                )
+
+            if (provider == "register") {
+                if (user != null) {
+                    call.respond(HttpStatusCode.Conflict, mapOf("error" to "Email already registered"))
+                    return@post
+                }
+                user = newParent(email, password)
                 ApiDatabase.users.add(user)
-                ApiLogger.i("SSO auto-registered ${user.email}")
+                ApiLogger.i("Registered ${user.email}")
+            } else {
+                if (user == null) {
+                    call.respond(HttpStatusCode.Unauthorized, mapOf("error" to "No account found for this email"))
+                    return@post
+                }
+                if (user.password != password) {
+                    call.respond(HttpStatusCode.Unauthorized, mapOf("error" to "Invalid credentials"))
+                    return@post
+                }
             }
 
-            val accessToken = AuthTokenStore.issueToken(user.id, user.role)
-            val refreshToken = AuthTokenStore.issueToken(user.id, user.role)
-
-            call.respond(
-                mapOf(
-                    "accessToken" to accessToken,
-                    "refreshToken" to refreshToken,
-                    "expiresIn" to 3600,
-                    "user" to mapOf(
-                        "userId" to user.id,
-                        "name" to user.name,
-                        "email" to user.email,
-                        "role" to user.role,
-                        "language" to "en",
-                        "biometricEnabled" to false,
-                        "notificationEnabled" to true
-                    )
-                )
-            )
+            call.respond(authResponse(user))
         }
 
         // Legacy login (still works for testing with credentials)
@@ -88,25 +81,7 @@ fun Route.authRoutes() {
                 return@post
             }
 
-            val token = AuthTokenStore.issueToken(user.id, user.role)
-            val refreshToken = AuthTokenStore.issueToken(user.id, user.role)
-
-            call.respond(
-                mapOf(
-                    "accessToken" to token,
-                    "refreshToken" to refreshToken,
-                    "expiresIn" to 3600,
-                    "user" to mapOf(
-                        "userId" to user.id,
-                        "name" to user.name,
-                        "email" to user.email,
-                        "role" to user.role,
-                        "language" to "en",
-                        "biometricEnabled" to false,
-                        "notificationEnabled" to true
-                    )
-                )
-            )
+            call.respond(authResponse(user))
         }
 
         // Register
@@ -129,35 +104,9 @@ fun Route.authRoutes() {
                 return@post
             }
 
-            val newUser = ApiUser(
-                id = "u-${ApiDatabase.users.size + 1}",
-                name = req.email.substringBefore("@").replaceFirstChar { it.uppercase() },
-                email = req.email,
-                password = req.password,
-                role = "Parent",
-                linkedStudentIds = listOf("stu-1")
-            )
+            val newUser = newParent(req.email, req.password)
             ApiDatabase.users.add(newUser)
-
-            val token = AuthTokenStore.issueToken(newUser.id, newUser.role)
-            val refreshToken = AuthTokenStore.issueToken(newUser.id, newUser.role)
-
-            call.respond(
-                mapOf(
-                    "accessToken" to token,
-                    "refreshToken" to refreshToken,
-                    "expiresIn" to 3600,
-                    "user" to mapOf(
-                        "userId" to newUser.id,
-                        "name" to newUser.name,
-                        "email" to newUser.email,
-                        "role" to newUser.role,
-                        "language" to "en",
-                        "biometricEnabled" to false,
-                        "notificationEnabled" to true
-                    )
-                )
-            )
+            call.respond(authResponse(newUser))
         }
 
         // Refresh
@@ -172,27 +121,12 @@ fun Route.authRoutes() {
             }
 
             val user = ApiDatabase.users.firstOrNull { it.id == userId }
-                ?: return@post call.respond(HttpStatusCode.NotFound, mapOf("error" to "User not found"))
+            if (user == null) {
+                call.respond(HttpStatusCode.NotFound, mapOf("error" to "User not found"))
+                return@post
+            }
 
-            val newToken = AuthTokenStore.issueToken(user.id, user.role)
-            val newRefresh = AuthTokenStore.issueToken(user.id, user.role)
-
-            call.respond(
-                mapOf(
-                    "accessToken" to newToken,
-                    "refreshToken" to newRefresh,
-                    "expiresIn" to 3600,
-                    "user" to mapOf(
-                        "userId" to user.id,
-                        "name" to user.name,
-                        "email" to user.email,
-                        "role" to user.role,
-                        "language" to "en",
-                        "biometricEnabled" to false,
-                        "notificationEnabled" to true
-                    )
-                )
-            )
+            call.respond(authResponse(user))
         }
 
         // Logout
@@ -202,4 +136,35 @@ fun Route.authRoutes() {
             call.respond(mapOf("message" to "Logged out"))
         }
     }
+}
+
+private fun newParent(email: String, password: String) = ApiUser(
+    id = "u-${ApiDatabase.users.size + 1}",
+    name = email.substringBefore("@").replaceFirstChar { it.uppercase() },
+    email = email,
+    password = password,
+    role = "Parent",
+    linkedStudentIds = listOf("stu-1")
+)
+
+/**
+ * Shape must match AuthResponse / UserProfileDto on the Retrofit side.
+ * createdAt/updatedAt are non-null in UserProfileDto, so they must be sent.
+ */
+private fun authResponse(user: ApiUser): Map<String, Any> {
+    val now = Instant.now().toString()
+    return mapOf(
+        "accessToken" to AuthTokenStore.issueToken(user.id, user.role),
+        "refreshToken" to AuthTokenStore.issueToken(user.id, user.role),
+        "expiresIn" to 3600,
+        "user" to mapOf(
+            "userId" to user.id,
+            "name" to user.name,
+            "email" to user.email,
+            "role" to user.role,
+            "language" to "en",
+            "createdAt" to now,
+            "updatedAt" to now
+        )
+    )
 }

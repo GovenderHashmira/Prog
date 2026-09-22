@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
+import prog7314.poe.edubridge.BuildConfig
 
 private const val TAG = "SchoolMap"
 
@@ -41,8 +42,16 @@ fun SchoolMapScreen(onBack: () -> Unit) {
             Text("School Location", style = MaterialTheme.typography.titleLarge)
         }
 
-        Box(Modifier.fillMaxSize()) {
-s
+        // Without an API key the Maps SDK throws when the map is created,
+        // so show a message instead of crashing.
+        if (BuildConfig.MAPS_API_KEY.isBlank()) {
+            Box(Modifier.fillMaxSize().padding(24.dp), contentAlignment = Alignment.Center) {
+                Text(
+                    "Map unavailable: add MAPS_API_KEY to local.properties and rebuild.",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        } else Box(Modifier.fillMaxSize()) {
             GoogleMap(
                 modifier = Modifier.fillMaxSize(),
                 cameraPositionState = cameraPositionState,

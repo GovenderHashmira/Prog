@@ -62,20 +62,43 @@ class UserPreferences @Inject constructor(
     // ──────────────────────────────────────────────────────
     // EncryptedSharedPreferences
     // ──────────────────────────────────────────────────────
-    private val masterKey: MasterKey by lazy {
-        MasterKey.Builder(context)
+    // Emulators often end up with a corrupted keyset (reinstalls, wiped Keystore,
+    // restored backups). EncryptedSharedPreferences then throws on first use, which
+    // surfaced as "Network unavailable" at login and crashed OkHttp threads.
+    // So: try once, on failure wipe the file + master key and retry, and as a last
+    // resort fall back to plain private prefs so the app keeps working.
+    private val securePrefs: SharedPreferences by lazy { createSecurePrefs() }
+
+    private fun buildEncryptedPrefs(): SharedPreferences {
+        val masterKey = MasterKey.Builder(context)
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
             .build()
-    }
-
-    private val securePrefs: SharedPreferences by lazy {
-        EncryptedSharedPreferences.create(
+        return EncryptedSharedPreferences.create(
             context,
             SECURE_FILE,
             masterKey,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
+    }
+
+    private fun createSecurePrefs(): SharedPreferences {
+        try {
+            return buildEncryptedPrefs()
+        } catch (e: Exception) {
+            Log.w(TAG, "Encrypted prefs unreadable, resetting them", e)
+        }
+        try {
+            context.deleteSharedPreferences(SECURE_FILE)
+            java.security.KeyStore.getInstance("AndroidKeyStore").apply {
+                load(null)
+                deleteEntry(MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+            }
+            return buildEncryptedPrefs()
+        } catch (e: Exception) {
+            Log.e(TAG, "Encrypted prefs unavailable, using plain prefs fallback", e)
+        }
+        return context.getSharedPreferences("${SECURE_FILE}_fallback", Context.MODE_PRIVATE)
     }
 
     // ──────────────────────────────────────────────────────

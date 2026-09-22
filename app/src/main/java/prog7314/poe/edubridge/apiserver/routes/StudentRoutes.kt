@@ -28,7 +28,11 @@ fun Route.studentRoutes() {
                 return@get
             }
 
-            val user = ApiDatabase.users.first { it.id == userId }
+            val user = ApiDatabase.users.firstOrNull { it.id == userId }
+            if (user == null) {
+                call.respond(HttpStatusCode.Unauthorized, mapOf("error" to "User not found"))
+                return@get
+            }
             val visible = when (role) {
                 "Parent", "Student" -> ApiDatabase.students.filter { it.id in user.linkedStudentIds }
                 "Teacher", "Admin"  -> ApiDatabase.students

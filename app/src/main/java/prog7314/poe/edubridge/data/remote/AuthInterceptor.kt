@@ -35,7 +35,14 @@ class AuthInterceptor @Inject constructor(
             return chain.proceed(original)
         }
 
-        val token = runBlocking { prefs.getAccessToken() }
+        // Any non-IOException thrown from an interceptor is rethrown by OkHttp on its
+        // worker thread and crashes the whole app, so reading the token must never throw.
+        val token = try {
+            runBlocking { prefs.getAccessToken() }
+        } catch (e: Exception) {
+            Log.e(TAG, "Could not read access token", e)
+            null
+        }
 
         val request = original.newBuilder()
             .apply {

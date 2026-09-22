@@ -7,10 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 import prog7314.poe.edubridge.ui.navigation.EduBridgeNavGraph
 import prog7314.poe.edubridge.ui.screens.settings.SettingsViewModel
 import prog7314.poe.edubridge.ui.theme.EduBridgeTheme
 
+// @AndroidEntryPoint is required for hiltViewModel() (used by LoginScreen) to work.
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

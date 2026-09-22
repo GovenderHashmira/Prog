@@ -1,5 +1,8 @@
 package prog7314.poe.edubridge.ui.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -15,7 +18,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import prog7314.poe.edubridge.ui.components.BottomNavBar
 import prog7314.poe.edubridge.ui.screens.attendance.AttendanceScreen
 import prog7314.poe.edubridge.ui.screens.biometrics.BiometricScreen
@@ -58,8 +60,10 @@ fun EduBridgeNavGraph(
                     currentRoute = currentRoute,
                     onItemSelected = { route ->
                         navController.navigate(route) {
-                            // Pop everything up to the start of the graph
-                            popUpTo(navController.graph.findStartDestination().id) {
+                            // The graph's start destination (Splash) is removed after launch,
+                            // so popping up to it did nothing and every tab tap stacked another
+                            // screen. Dashboard is the real root once logged in.
+                            popUpTo(Routes.DASHBOARD) {
                                 saveState = true
                             }
                             launchSingleTop = true
@@ -73,7 +77,13 @@ fun EduBridgeNavGraph(
         NavHost(
             navController = navController,
             startDestination = Routes.SPLASH,
-            modifier = Modifier.padding(padding)
+            modifier = Modifier.padding(padding),
+            // Default is a 700 ms cross-fade, during which both screens are half
+            // transparent and the window behind shows through. Keep it short.
+            enterTransition = { fadeIn(tween(150)) },
+            exitTransition = { fadeOut(tween(150)) },
+            popEnterTransition = { fadeIn(tween(150)) },
+            popExitTransition = { fadeOut(tween(150)) }
         ) {
             composable(Routes.SPLASH) {
                 SplashScreen(

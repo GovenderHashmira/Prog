@@ -5,7 +5,7 @@ import io.ktor.http.*
 import io.ktor.serialization.gson.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
-import io.ktor.server.netty.*
+import io.ktor.server.cio.*
 import io.ktor.server.plugins.callloging.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.cors.routing.*
@@ -13,17 +13,38 @@ import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.routing.*
 import io.ktor.server.response.*
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.withTimeoutOrNull
 
 // EduBridge embedded REST API server.
 // Runs inside the Android app on http://127.0.0.1:8080
 // Implements all endpoints defined in POE Part 1.
-// Start: EduBridgeApiServer.start() in MainActivity.onCreate()
-// Stop:  EduBridgeApiServer.stop()  in MainActivity.onDestroy()
+// Started once from EduBridgeApplication.onCreate() on a background thread.
+// Uses the CIO engine: pure Kotlin, and far more reliable on Android than Netty.
 
 object EduBridgeApiServer {
 
     private var engine: ApplicationEngine? = null
 
+    private val ready = CompletableDeferred<Unit>()
+
+    /** Set if the server failed to start, so the UI can show the real reason. */
+    @Volatile
+    var startupError: Throwable? = null
+        private set
+
+    /**
+     * Suspends until the server is accepting connections (it starts on a background
+     * thread, and on a slow emulator that can take longer than the splash screen).
+     * Returns false if it failed to start or didn't start within [timeoutMs].
+     */
+    suspend fun awaitReady(timeoutMs: Long = 8_000): Boolean = try {
+        withTimeoutOrNull(timeoutMs) { ready.await(); true } ?: false
+    } catch (e: Throwable) {
+        false
+    }
+
+    @Synchronized
     fun start() {
         if (engine != null) {
             ApiLogger.w("Server already running")
@@ -32,17 +53,26 @@ object EduBridgeApiServer {
 
         ApiLogger.i("Starting EduBridge API on ${ApiConfig.BASE_URL}")
 
-        engine = embeddedServer(
-            factory = Netty,
-            port = ApiConfig.PORT,
-            host = ApiConfig.HOST
-        ) {
-            module()
-        }.start(wait = false)
+        try {
+            engine = embeddedServer(
+                factory = CIO,
+                port = ApiConfig.PORT,
+                host = ApiConfig.HOST
+            ) {
+                module()
+            }.start(wait = false)
+        } catch (t: Throwable) {
+            startupError = t
+            ready.completeExceptionally(t)
+            ApiLogger.e("EduBridge API failed to start", t)
+            throw t
+        }
+        ready.complete(Unit)
 
         ApiLogger.i("EduBridge API started on port ${ApiConfig.PORT}")
     }
 
+    @Synchronized
     fun stop() {
         engine?.stop(1000, 3000)
         engine = null
@@ -87,6 +117,7 @@ object EduBridgeApiServer {
             academicRoutes()
             communicationRoutes()
             settingsRoutes()
+            miscRoutes()
 
             get("/") {
                 call.respond(
@@ -95,7 +126,10 @@ object EduBridgeApiServer {
                         "version" to "1.0",
                         "status" to "running",
                         "endpoints" to listOf(
+                            "POST /api/auth/sso",
                             "POST /api/auth/login",
+                            "POST /api/auth/register",
+                            "POST /api/auth/refresh",
                             "POST /api/auth/logout",
                             "GET  /api/users/me",
                             "GET  /api/users/me/settings",
@@ -107,7 +141,11 @@ object EduBridgeApiServer {
                             "GET  /api/students/{id}/timetable",
                             "GET  /api/notices",
                             "GET  /api/messages",
-                            "GET  /api/messages/{id}"
+                            "GET  /api/messages/{id}",
+                            "POST /api/sync",
+                            "GET  /api/sync/status",
+                            "POST /api/devices/register",
+                            "GET  /api/schools/{id}"
                         )
                     )
                 )

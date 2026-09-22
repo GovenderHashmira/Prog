@@ -1,6 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.EduBridge" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Without this the window is black/near-black in emulator dark mode, and it
+             shows through on launch, rotation, language change and screen transitions. -->
+        <item name="android:windowBackground">@color/edubridge_navy</item>
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>

@@ -71,11 +71,11 @@ class LoginViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = true, errorMessage = null) }
 
         viewModelScope.launch {
-            // Prototype: both "login" and "register" use the same repository call.
-            // A full implementation would route registration to a separate API endpoint.
+            // Mock SSO: the embedded server expects identityToken = "email:password".
+            // provider "register" tells it to create the account.
             val result = authRepository.login(
-                provider = "local",
-                identityToken = password,
+                provider = if (state.isRegisterMode) "register" else "local",
+                identityToken = "$email:$password",
                 deviceId = "edubridge-android"
             )
 
@@ -87,14 +87,14 @@ class LoginViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             isLoading = false,
-                            errorMessage = result.message ?: "Authentication failed"
+                            errorMessage = result.message
                         )
                     }
                 }
                 is Resource.Loading -> Unit
                 is Resource.Empty -> {
                     _uiState.update {
-                        it.copy(isLoading = false, errorMessage = "No account found")
+                        it.copy(isLoading = false, errorMessage = result.message)
                     }
                 }
             }
