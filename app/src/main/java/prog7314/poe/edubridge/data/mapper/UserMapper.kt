@@ -32,12 +32,12 @@ fun UserProfileDto.toDomain() = User(
     language = language
 )
 
-fun User.toProfileDto() = UserProfileDto(
-    userId = id,
+fun UserProfileDto.toEntity() = UserEntity(
+    userId = userId,
     name = name,
     email = email,
-    role = role.name,
+    role = Role.fromString(role),
     language = language,
-    createdAt = Instant.now().toString(),
-    updatedAt = Instant.now().toString()
+    createdAt = Instant.now(),
+    updatedAt = Instant.now()
 )

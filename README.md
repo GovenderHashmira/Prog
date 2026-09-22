@@ -19,7 +19,6 @@ Authorized users can use this single mobile platform to access information such 
 - Student profiles settings and preferences
 - School location information
 - Weather information
-- Push notifications
 
 EduBridge is designed using a role-based architecture where the application communicates with a hosted REST API. The API is responsible for authentication, authorisation, validation, business rules and access to data.
 
@@ -43,14 +42,12 @@ The EduBridge application includes this functionality:
 - Attendance
 - Timetable
 - School notices
-- Messaging functionality
 - User settings
 - Language preferences
 - Notification preferences
 - Biometric authentication
 - Offline data caching
 - Data synchronization
-- Firebase Cloud Messaging notifications
 - School location using Google Maps
 - Weather information using a weather API
 - REST API integration
@@ -62,10 +59,27 @@ The EduBridge application includes this functionality:
 This application does not replace a school’s complete administration or learning management system.
 
 ## Architecture Diagram
-
+<img src ="Architecture Diagram PROG.png"> \
+Caption: Architecture Diagram  created using draw.io Diagrams
 
 ## Technology Stack
-
+|Layer |Technology |Purpose |
+|----------------|----------------------------|-----------------------------------|
+|Mobile Platform |Android                     |Required platform                  |
+|Language        |Kotlin                      |Used to develop application        |
+|UI              |Jetpack Compose             |Declares Android UI                |
+|Architecture    |MVVM                        |Separates the UI and business logic|
+|State Management|StateFlow                   |Observes UI Sates                  |
+|Async Processing|Kotlin Coroutines           |Asynchronous operations            |
+|Networking      |Retrofit                    |REST API communication             |
+|Local Database  |RoomDB/SQLite               |Local caching                      |
+|API             |REST API                    |Backend communication              |
+|Authentication  |SSO/OAuth 2.0/OpenID Connect|User authentication                |
+|Maps            |Google Maps SDK             |School location                    |
+|Weather         |OpenWeather API             |Weather information                |
+|Version Control |Git                         |Source control                     |
+|Repository      |GitHub                      |Collaboration and source management|
+|CI              |GitHub Actions              |Automated build and testing        |
 
 ## External SDKs/Services
 ### Google Maps SDK
@@ -74,14 +88,25 @@ The SDK provides map functionality for the school location feature as its purpos
 ### Weather API
 Using an external weather service, the purpose of this API is to retrieve weather information, display weather on the dashboard and demonstrate integration with an external API.
 
-### Firebase Cloud Messaging
-This is use for the push notification functionality and its purpose is to register devices, receive school notifications and support communication.
-
 ### SSO/ OAuth
 This service provides authentication for the application by using application tokens when communication with protected backend endpoints.
 
 ## CI/CD Summary
+### Version Control
+The collaboration platform and version control used for this project is Git and GitHub.
 
+GitHub provides centralised source code management, pulls request, code review, issue tracking, GitHub Actions automation and documentation through the README.md.
+
+The main branch is protected to reduce the risk of unstable code being merged directly into the stable project.
+
+Branch protection includes successful GitHub Actions build, Pull request requirement, required status checks and review before merging.
+
+Each member can commit changes regularly and must use descriptive commit messages as these commits make it easier to identify changes, track progress, review code, locate errors and bugs, revert problematic changes and demonstrates the project’s development history.
+
+### GitHub Actions CI/CD
+GitHub Actions is used to automate testing and the project’s build.
+
+The workflow is triggered when changes to code are pushed to the repository and is responsible for checking the repository, setting up required Java environment, building the Android project, running unit tests and reporting success or failure.
 
 ## Screenshots
 
@@ -90,5 +115,21 @@ This service provides authentication for the application by using application to
 
 
 ## AI Declaration
+### Meira John Daniels
+- Architecture Diagram - used AI to assist with structuring and refining the diagram as well as suggest appropriate terminology for the architecture diagram.
+- Concept clarification - used AI to clarify concepts required for the documentation.
+- GitHub Actions Automation - used AI to assist with understanding and creating the GitHub Actions workflow for project build and testing.
+
+### Khumo Machoga
+- Unit Tests - used AI to assist with understanding and developing unit tests.
+- Concept Clarification - used AI to explain Kotlin and Ktor concepts as well as package/import resolution and Android build configuration.
+- Errors - used AI to help understand compiler errors and suggest possible causes and solutions.
+- Code Review - used AI to review code to identify any potential bugs or problems within code and provide correction or improvement suggestions.
+- Boilerplate assistance - used AI to assist with repetitive code structures.
+
+### Arlo (Abby) Staples
+- Package and build errors - used AI to assist with resolving package-related issues, Gradle errors and project configuration.
+- Errors - used AI to help understand compiler errors and suggest possible causes and solutions.
+- Configuration - used AI to assist with Gradle configuration.
 
 ## References
