@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -18,17 +20,14 @@ android {
         versionName = "1.0"
 
         buildConfigField("String", "API_BASE_URL", "\"https://dev-api.edubridge.local/\"")
-        buildConfigField("String", "WEATHER_API_KEY", "\"653545f5cc023f864ecbb580a1bf45f3\"")
-        buildConfigField("String", "MAPS_API_KEY", "\"AIzaSyAy94rn-a0Eu2jPPXGz92Kyk9NROEziPaw\"")
+        buildConfigField("String", "WEATHER_API_KEY", "\"${secret("WEATHER_API_KEY")}\"")
+        buildConfigField("String", "MAPS_API_KEY", "\"${secret("MAPS_API_KEY")}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
     }
 
     buildTypes {
-        debug {
-            // inherits API_BASE_URL from defaultConfig
-        }
         release {
             isMinifyEnabled = false
             buildConfigField("String", "API_BASE_URL", "\"https://api.edubridge.co.za/\"")
@@ -66,6 +65,7 @@ kotlin {
 ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
     arg("room.incremental", "true")
+    arg("room.generateKotlin", "true")
 }
 
 dependencies {
@@ -76,7 +76,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
 
-    // ── Compose (BOM controls library versions) ───────
+    // ── Compose ───────────────────────────────────────
     implementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(platform(libs.androidx.compose.bom))
 
@@ -137,4 +137,14 @@ dependencies {
 
     // ── Desugaring (java.time.* on API < 26) ──────────
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+}
+
+fun secret(key: String, fallback: String = ""): String {
+    val file = rootProject.file("local.properties")
+    if (!file.exists()) {
+        return System.getenv(key) ?: fallback
+    }
+    val props = Properties()
+    file.inputStream().use { props.load(it) }
+    return props.getProperty(key) ?: System.getenv(key) ?: fallback
 }
